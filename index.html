@@ -1,0 +1,889 @@
+<!doctype html>
+<html lang="es" class="h-full" style="scroll-behavior:smooth;">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Corporación Petrovi C.A.</title>
+  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+  <script src="https://cdn.jsdelivr.net/npm/lucide@0.263.0/dist/umd/lucide.min.js"></script>
+  <script src="/_sdk/element_sdk.js"></script>
+  <script src="/_sdk/data_sdk.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&amp;display=swap" rel="stylesheet">
+  <script>
+tailwind.config = {
+  theme: {
+    extend: {
+      fontFamily: { mont: ['Montserrat', 'sans-serif'] },
+      colors: {
+        petrovi: { red: '#C8102E', yellow: '#FFB81C', gray: '#58595B', dark: '#1a1a1a' }
+      }
+    }
+  }
+}
+</script>
+  <style>
+html, body { height: 100%; margin: 0; font-family: 'Montserrat', sans-serif; }
+.hero-bg {
+  background: linear-gradient(135deg, #f5f1ed 0%, #faf8f6 50%, #fffbf7 100%);
+}
+.service-card { transition: transform 0.3s, box-shadow 0.3s; }
+.service-card:hover { transform: translateY(-6px); box-shadow: 0 20px 40px rgba(0,0,0,0.12); }
+.sector-icon { transition: transform 0.3s; }
+.sector-icon:hover { transform: scale(1.08); }
+.fade-up { opacity: 0; transform: translateY(30px); transition: opacity 0.7s, transform 0.7s; }
+.fade-up.visible { opacity: 1; transform: translateY(0); }
+.nav-link { position: relative; }
+.nav-link::after { content:''; position:absolute; bottom:-2px; left:0; width:0; height:2px; background:#C8102E; transition:width 0.3s; }
+.nav-link:hover::after { width:100%; }
+.yellow-line { width: 60px; height: 4px; background: #FFB81C; border-radius: 2px; }
+.btn-petrovi { background: #C8102E; color: #fff; transition: all 0.3s; }
+.btn-petrovi:hover { background: #a00d24; transform: translateY(-2px); box-shadow: 0 8px 20px rgba(200,16,46,0.35); }
+@keyframes slideDown { from { opacity:0; transform:translateY(-10px); } to { opacity:1; transform:translateY(0); } }
+@keyframes float { 0%, 100% { transform: translateY(0px); } 50% { transform: translateY(-20px); } }
+.mobile-menu { animation: slideDown 0.3s ease; }
+.toast-msg { animation: slideDown 0.4s ease; }
+.floating-logo { animation: float 4s ease-in-out infinite; }
+input:focus, textarea:focus { outline: none; border-color: #C8102E; box-shadow: 0 0 0 3px rgba(200,16,46,0.15); }
+</style>
+  <style>body { box-sizing: border-box; }</style>
+ </head>
+ <body class="h-full bg-white text-petrovi-dark font-mont">
+  <div id="app" class="w-full h-full overflow-auto">
+   <header id="mainHeader" class="fixed top-0 left-0 w-full z-50 bg-white/95 backdrop-blur-md border-b border-gray-100 transition-all duration-300">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between h-16 md:h-20"><!-- Logo -->
+     <div class="flex items-center gap-2 flex-shrink-0">
+      <img src="https://imgur.com/JXCNyIh.png" alt="Petrovi Logo" class="w-10 h-10 md:w-12 md:h-12 object-contain" loading="lazy" onerror="console.error('Logo failed to load:', this.src); this.style.background='#C8102E'; this.alt='Petrovi Logo';">
+      <div class="leading-tight"><span class="font-bold text-petrovi-dark text-sm md:text-base tracking-wide">PETROVI</span> <span class="block text-[9px] md:text-[10px] text-petrovi-gray tracking-widest">CORPORACIÓN C.A.</span>
+      </div>
+     </div><!-- Desktop Nav -->
+     <nav class="hidden md:flex items-center gap-8"><a href="#inicio" class="nav-link text-sm font-semibold text-petrovi-dark hover:text-petrovi-red" data-i18n="nav_inicio">Inicio</a> <a href="#nosotros" class="nav-link text-sm font-semibold text-petrovi-dark hover:text-petrovi-red" data-i18n="nav_nosotros">Nosotros</a> <a href="#servicios" class="nav-link text-sm font-semibold text-petrovi-dark hover:text-petrovi-red" data-i18n="nav_servicios">Servicios</a> <a href="#sectores" class="nav-link text-sm font-semibold text-petrovi-dark hover:text-petrovi-red" data-i18n="nav_sectores">Sectores</a> <a href="#compromiso" class="nav-link text-sm font-semibold text-petrovi-dark hover:text-petrovi-red" data-i18n="nav_compliance">Cumplimiento</a> <a href="#contacto" class="nav-link text-sm font-semibold text-petrovi-dark hover:text-petrovi-red" data-i18n="nav_contacto">Contacto</a>
+     </nav><!-- Lang + Mobile -->
+     <div class="flex items-center gap-3"><button id="langToggle" class="flex items-center gap-1 px-3 py-1.5 border border-gray-200 rounded-full text-xs font-semibold text-petrovi-gray hover:border-petrovi-red hover:text-petrovi-red transition-colors"> <i data-lucide="globe" style="width:14px;height:14px;"></i> <span id="langLabel">ES</span> </button> <button id="mobileMenuBtn" class="md:hidden p-2 text-petrovi-dark"> <i data-lucide="menu" style="width:24px;height:24px;"></i> </button>
+     </div>
+    </div><!-- Mobile Nav -->
+    <div id="mobileMenu" class="hidden md:hidden bg-white border-t border-gray-100 mobile-menu">
+     <div class="px-6 py-4 flex flex-col gap-4"><a href="#inicio" class="text-sm font-semibold text-petrovi-dark" data-i18n="nav_inicio" onclick="closeMobile()">Inicio</a> <a href="#nosotros" class="text-sm font-semibold text-petrovi-dark" data-i18n="nav_nosotros" onclick="closeMobile()">Nosotros</a> <a href="#servicios" class="text-sm font-semibold text-petrovi-dark" data-i18n="nav_servicios" onclick="closeMobile()">Servicios</a> <a href="#sectores" class="text-sm font-semibold text-petrovi-dark" data-i18n="nav_sectores" onclick="closeMobile()">Sectores</a> <a href="#compromiso" class="text-sm font-semibold text-petrovi-dark" data-i18n="nav_compliance" onclick="closeMobile()">Cumplimiento</a> <a href="#contacto" class="text-sm font-semibold text-petrovi-dark" data-i18n="nav_contacto" onclick="closeMobile()">Contacto</a>
+     </div>
+    </div>
+   </header><!-- HERO --> <!-- HERO -->
+   <section id="inicio" class="hero-bg relative w-full flex items-center" style="min-height:600px; padding-top:80px; padding-bottom:60px;"><!-- Floating Logo -->
+    <div class="absolute top-1/2 right-12 transform -translate-y-1/2 opacity-100 pointer-events-none hidden lg:block"><img src="https://imgur.com/JXCNyIh.png" alt="Petrovi Logo" class="floating-logo w-72 h-72 object-contain" loading="lazy" style="filter: drop-shadow(0 12px 40px rgba(200,16,46,0.3)) drop-shadow(0 0 80px rgba(255,184,28,0.4));">
+    </div><!-- Decorative elements -->
+    <div class="absolute top-0 right-0 w-1/2 h-full opacity-10">
+     <svg viewbox="0 0 400 400" class="w-full h-full">
+      <circle cx="300" cy="200" r="180" stroke="#FFB81C" stroke-width="1" fill="none" /><circle cx="300" cy="200" r="120" stroke="#FFB81C" stroke-width="0.5" fill="none" /><line x1="0" y1="350" x2="400" y2="100" stroke="#C8102E" stroke-width="0.5" opacity="0.5" />
+     </svg>
+    </div>
+    <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
+     <div class="max-w-3xl">
+      <div class="flex items-center gap-3 mb-6">
+       <div class="yellow-line"></div><span class="text-petrovi-red text-xs font-bold tracking-[0.3em] uppercase" data-i18n="hero_tag">Ingeniería · Procura · Construcción · Minería</span>
+      </div>
+      <h1 id="heroTitle" class="text-4xl sm:text-5xl lg:text-6xl font-black text-petrovi-dark leading-[1.1] mb-6">Innovación y Construcción Industrial de Gran Alcance</h1>
+      <p id="heroSubtitle" class="text-base sm:text-lg text-petrovi-dark font-light leading-relaxed mb-10 max-w-2xl">Soluciones integrales en ingeniería, mantenimiento y desarrollo minero bajo los más altos estándares de seguridad y precisión técnica.</p><a href="#servicios" class="btn-petrovi inline-flex items-center gap-2 px-8 py-4 rounded-lg font-bold text-sm tracking-wide"> <span data-i18n="hero_btn">Ver Nuestros Servicios</span> <i data-lucide="arrow-right" style="width:18px;height:18px;"></i> </a>
+     </div>
+    </div><!-- Bottom accent line -->
+    <div class="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-petrovi-red via-petrovi-yellow to-transparent"></div>
+   </section><!-- NOSOTROS -->
+   <section id="nosotros" class="w-full py-20 lg:py-28 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+     <div class="max-w-4xl mx-auto">
+      <div class="fade-up space-y-8">
+       <div>
+        <div class="flex items-center gap-3 mb-4">
+         <div class="yellow-line"></div><span class="text-petrovi-gray text-xs font-bold tracking-[0.25em] uppercase">Nuestra Esencia</span>
+        </div>
+        <h2 class="text-3xl sm:text-4xl font-black text-petrovi-dark mb-6 leading-tight">Nosotros</h2>
+        <p class="text-petrovi-gray font-light leading-relaxed text-sm">Empresa venezolana líder en servicios de ingeniería, mantenimiento industrial y suministro de insumos. Nos especializamos en garantizar la continuidad operativa de los sectores petrolero, minero, urbano, civil y agrícola mediante soluciones técnicas de alta precisión y un modelo de gestión eficiente.</p>
+       </div>
+       <div class="bg-petrovi-red/5 border-l-4 border-petrovi-red p-6 rounded-r-lg">
+        <h3 class="text-lg font-bold text-petrovi-dark mb-3 flex items-center gap-2"><i data-lucide="target" style="width:20px;height:20px;color:#C8102E;"></i> Misión</h3>
+        <p class="text-petrovi-gray font-light leading-relaxed text-sm">Proveer servicios especializados de ingeniería, mantenimiento, construcción y manejo IPCM con los más altos estándares de seguridad y calidad, garantizando la continuidad operativa de nuestros clientes y contribuyendo al desarrollo energético nacional.</p>
+       </div>
+       <div class="bg-petrovi-yellow/5 border-l-4 border-petrovi-yellow p-6 rounded-r-lg">
+        <h3 class="text-lg font-bold text-petrovi-dark mb-3 flex items-center gap-2"><i data-lucide="eye" style="width:20px;height:20px;color:#FFB81C;"></i> Visión</h3>
+        <p class="text-petrovi-gray font-light leading-relaxed text-sm">Consolidarnos como el aliado estratégico líder en el sector industrial, minero y petrolero, siendo reconocidos por nuestra capacidad de respuesta, innovación tecnológica y compromiso con la sostenibilidad ambiental.</p>
+       </div>
+      </div>
+     </div><!-- Stats Row -->
+     <div class="grid sm:grid-cols-3 gap-6 mt-16 pt-12 border-t border-gray-200">
+      <div class="text-center fade-up"><span class="text-4xl font-black text-petrovi-red">+7</span>
+       <p class="text-sm text-petrovi-gray font-light mt-2">Años de Experiencia</p>
+      </div>
+      <div class="text-center fade-up"><span class="text-4xl font-black text-petrovi-dark">100%</span>
+       <p class="text-sm text-petrovi-gray font-light mt-2">Compromiso Operativo</p>
+      </div>
+      <div class="text-center fade-up"><span class="text-4xl font-black text-petrovi-yellow">5+</span>
+       <p class="text-sm text-petrovi-gray font-light mt-2">Sectores Estratégicos</p>
+      </div>
+     </div>
+    </div>
+   </section><!-- SERVICIOS -->
+   <section id="servicios" class="w-full py-20 lg:py-28 bg-gray-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+     <div class="text-center mb-14 fade-up">
+      <div class="flex items-center justify-center gap-3 mb-4">
+       <div class="yellow-line"></div><span class="text-petrovi-gray text-xs font-bold tracking-[0.25em] uppercase" data-i18n="services_tag">Lo Que Hacemos</span>
+       <div class="yellow-line"></div>
+      </div>
+      <h2 class="text-3xl sm:text-4xl font-black text-petrovi-dark" data-i18n="services_title">Nuestros Servicios</h2>
+     </div>
+     <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6"><!-- Card 1 -->
+      <div class="service-card bg-white rounded-2xl p-6 border border-gray-100 fade-up">
+       <div class="w-12 h-12 bg-petrovi-red/10 rounded-xl flex items-center justify-center mb-5"><i data-lucide="hard-hat" style="width:24px;height:24px;color:#C8102E;"></i>
+       </div>
+       <h3 class="font-bold text-petrovi-dark text-base mb-3">Construcción e Inspección de Obras</h3>
+       <p class="text-sm text-petrovi-gray font-light leading-relaxed">Ejecución de obras civiles y supervisión técnica rigurosa, asegurando el cumplimiento de normativas y altos estándares de calidad en cada proyecto.</p>
+      </div><!-- Card 2 -->
+      <div class="service-card bg-white rounded-2xl p-6 border border-gray-100 fade-up">
+       <div class="w-12 h-12 bg-petrovi-red/10 rounded-xl flex items-center justify-center mb-5"><i data-lucide="wrench" style="width:24px;height:24px;color:#C8102E;"></i>
+       </div>
+       <h3 class="font-bold text-petrovi-dark text-base mb-3">Metalmecánica y Mantenimiento</h3>
+       <p class="text-sm text-petrovi-gray font-light leading-relaxed">Fabricación de estructuras, soldadura especializada y mantenimiento preventivo para garantizar la continuidad operativa de plantas petroleras e industriales.</p>
+      </div><!-- Card 3 -->
+      <div class="service-card bg-white rounded-2xl p-6 border border-gray-100 fade-up">
+       <div class="w-12 h-12 bg-petrovi-yellow/15 rounded-xl flex items-center justify-center mb-5"><i data-lucide="mountain" style="width:24px;height:24px;color:#FFB81C;"></i>
+       </div>
+       <h3 class="font-bold text-petrovi-dark text-base mb-3">Ingeniería y Desarrollo Minero</h3>
+       <p class="text-sm text-petrovi-gray font-light leading-relaxed">Gestión integral de proyectos de exploración y extracción, incluyendo levantamientos técnicos y certificación de reservas, garantizando una operación eficiente bajo altos estándares de seguridad industrial.</p>
+      </div><!-- Card 4 -->
+      <div class="service-card bg-white rounded-2xl p-6 border border-gray-100 fade-up">
+       <div class="w-12 h-12 bg-petrovi-yellow/15 rounded-xl flex items-center justify-center mb-5"><i data-lucide="package" style="width:24px;height:24px;color:#FFB81C;"></i>
+       </div>
+       <h3 class="font-bold text-petrovi-dark text-base mb-3">Suministros e Insumos</h3>
+       <p class="text-sm text-petrovi-gray font-light leading-relaxed">Provisión inmediata de insumos petroleros, consumibles químicos y maquinaria pesada para responder a las exigencias críticas de la industria nacional.</p>
+      </div><!-- Card 5 -->
+      <div class="service-card bg-white rounded-2xl p-6 border border-gray-100 fade-up">
+       <div class="w-12 h-12 bg-petrovi-red/10 rounded-xl flex items-center justify-center mb-5"><i data-lucide="shield-check" style="width:24px;height:24px;color:#C8102E;"></i>
+       </div>
+       <h3 class="font-bold text-petrovi-dark text-base mb-3">Equipo Humano Especializado</h3>
+       <p class="text-sm text-petrovi-gray font-light leading-relaxed">Personal de ingeniería y técnicos certificados con amplia trayectoria, capacitados en protocolos SHA para operar con precisión en entornos complejos.</p>
+      </div>
+     </div>
+    </div><!-- SECTORES -->
+    <section id="sectores" class="w-full py-20 lg:py-28 bg-white">
+     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-14 fade-up">
+       <div class="flex items-center justify-center gap-3 mb-4">
+        <div class="yellow-line"></div><span class="text-petrovi-gray text-xs font-bold tracking-[0.25em] uppercase" data-i18n="sectors_tag">Especialidades</span>
+        <div class="yellow-line"></div>
+       </div>
+       <h2 class="text-3xl sm:text-4xl font-black text-petrovi-dark" data-i18n="sectors_title">Sectores de Especialidad</h2>
+      </div>
+      <div class="grid md:grid-cols-3 gap-8">
+       <div class="sector-icon text-center fade-up">
+        <div class="w-20 h-20 mx-auto bg-petrovi-dark rounded-2xl flex items-center justify-center mb-5"><i data-lucide="flame" style="width:36px;height:36px;color:#FFB81C;"></i>
+        </div>
+        <h3 class="font-bold text-petrovi-dark text-lg mb-2" data-i18n="sec1_title">Energía y Petróleo</h3>
+        <p class="text-sm text-petrovi-gray font-light" data-i18n="sec1_desc">Soporte técnico a la cadena de valor de hidrocarburos.</p>
+       </div>
+       <div class="sector-icon text-center fade-up">
+        <div class="w-20 h-20 mx-auto bg-petrovi-red rounded-2xl flex items-center justify-center mb-5"><i data-lucide="gem" style="width:36px;height:36px;color:#fff;"></i>
+        </div>
+        <h3 class="font-bold text-petrovi-dark text-lg mb-2" data-i18n="sec2_title">Minería Estratégica</h3>
+        <p class="text-sm text-petrovi-gray font-light" data-i18n="sec2_desc">Desarrollo de infraestructura y logística para el sector minero.</p>
+       </div>
+       <div class="sector-icon text-center fade-up">
+        <div class="w-20 h-20 mx-auto bg-gray-100 rounded-2xl flex items-center justify-center mb-5"><i data-lucide="building-2" style="width:36px;height:36px;color:#58595B;"></i>
+        </div>
+        <h3 class="font-bold text-petrovi-dark text-lg mb-2" data-i18n="sec3_title">Infraestructura Civil</h3>
+        <p class="text-sm text-petrovi-gray font-light" data-i18n="sec3_desc">Construcción urbana y vialidad industrial.</p>
+       </div>
+      </div>
+     </div>
+    </section><!-- COMPROMISO SHA -->
+    <section class="w-full py-20 lg:py-28 bg-white">
+     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-14 fade-up">
+       <div class="flex items-center justify-center gap-3 mb-4">
+        <div class="yellow-line"></div><span class="text-petrovi-gray text-xs font-bold tracking-[0.25em] uppercase">Nuestro Compromiso</span>
+        <div class="yellow-line"></div>
+       </div>
+       <h2 class="text-3xl sm:text-4xl font-black text-petrovi-dark mb-2">Compromiso SHA</h2>
+       <p class="text-petrovi-gray font-light max-w-2xl mx-auto">Seguridad y Salud Laboral, Ambiente, Excelencia Operativa</p>
+      </div>
+      <div class="grid md:grid-cols-3 gap-8">
+       <!-- Pilar 1: Seguridad y Salud Laboral -->
+       <div class="bg-gradient-to-br from-petrovi-red/5 to-transparent rounded-2xl p-8 border border-gray-100 fade-up">
+        <div class="w-14 h-14 bg-petrovi-red rounded-xl flex items-center justify-center mb-5"><i data-lucide="hard-hat" style="width:28px;height:28px;color:#fff;"></i>
+        </div>
+        <h3 class="font-bold text-petrovi-dark text-lg mb-4">Seguridad y Salud Laboral</h3>
+        <p class="text-sm text-petrovi-gray font-light leading-relaxed mb-4">Operamos bajo una cultura de prevención de riesgos, garantizando el uso estricto de EPP y el cumplimiento de la LOPCYMAT para lograr nuestra meta de "Cero Incidentes".</p>
+        <ul class="space-y-2">
+         <li class="flex items-start gap-2 text-xs text-petrovi-gray font-light"><span class="text-petrovi-red font-bold">•</span> <span>Personal capacitado en protocolos de emergencia</span></li>
+         <li class="flex items-start gap-2 text-xs text-petrovi-gray font-light"><span class="text-petrovi-red font-bold">•</span> <span>Cumplimiento total de normativas LOPCYMAT</span></li>
+         <li class="flex items-start gap-2 text-xs text-petrovi-gray font-light"><span class="text-petrovi-red font-bold">•</span> <span>Meta corporativa: "Cero Incidentes"</span></li>
+        </ul>
+       </div><!-- Pilar 2: Protección Ambiental -->
+       <div class="bg-gradient-to-br from-petrovi-yellow/5 to-transparent rounded-2xl p-8 border border-gray-100 fade-up">
+        <div class="w-14 h-14 bg-petrovi-yellow rounded-xl flex items-center justify-center mb-5"><i data-lucide="leaf" style="width:28px;height:28px;color:#1a1a1a;"></i>
+        </div>
+        <h3 class="font-bold text-petrovi-dark text-lg mb-4">Protección Ambiental</h3>
+        <p class="text-sm text-petrovi-gray font-light leading-relaxed mb-4">Ejecutamos cada proyecto con responsabilidad ecológica, asegurando el manejo adecuado de desechos y el cumplimiento de las normativas de protección del entorno.</p>
+        <ul class="space-y-2">
+         <li class="flex items-start gap-2 text-xs text-petrovi-gray font-light"><span class="text-petrovi-yellow font-bold">•</span> <span>Manejo responsable de residuos</span></li>
+         <li class="flex items-start gap-2 text-xs text-petrovi-gray font-light"><span class="text-petrovi-yellow font-bold">•</span> <span>Cumplimiento de normativas ambientales</span></li>
+         <li class="flex items-start gap-2 text-xs text-petrovi-gray font-light"><span class="text-petrovi-yellow font-bold">•</span> <span>Desarrollo sostenible en operaciones</span></li>
+        </ul>
+       </div><!-- Pilar 3: Excelencia Operativa -->
+       <div class="bg-gradient-to-br from-gray-400/5 to-transparent rounded-2xl p-8 border border-gray-100 fade-up">
+        <div class="w-14 h-14 bg-petrovi-dark rounded-xl flex items-center justify-center mb-5"><i data-lucide="zap" style="width:28px;height:28px;color:#FFB81C;"></i>
+        </div>
+        <h3 class="font-bold text-petrovi-dark text-lg mb-4">Excelencia Operativa</h3>
+        <p class="text-sm text-petrovi-gray font-light leading-relaxed mb-4">Personal capacitado en protocolos de seguridad industrial, garantizando operaciones confiables en las instalaciones más exigentes del país.</p>
+        <ul class="space-y-2">
+         <li class="flex items-start gap-2 text-xs text-petrovi-gray font-light"><span class="text-petrovi-dark font-bold">•</span> <span>Capacitación continua del personal</span></li>
+         <li class="flex items-start gap-2 text-xs text-petrovi-gray font-light"><span class="text-petrovi-dark font-bold">•</span> <span>Operaciones de máxima confiabilidad</span></li>
+         <li class="flex items-start gap-2 text-xs text-petrovi-gray font-light"><span class="text-petrovi-dark font-bold">•</span> <span>Instalaciones certificadas y seguras</span></li>
+        </ul>
+       </div>
+      </div>
+     </div>
+    </section><!-- COMPROMISO SHA -->
+    <section id="compromiso" class="w-full py-20 lg:py-28 bg-white">
+     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-14 fade-up">
+       <div class="flex items-center justify-center gap-3 mb-4">
+        <div class="yellow-line"></div><span class="text-petrovi-gray text-xs font-bold tracking-[0.25em] uppercase" data-i18n="compliance_tag">Nuestro Compromiso</span>
+        <div class="yellow-line"></div>
+       </div>
+       <h2 class="text-3xl sm:text-4xl font-black text-petrovi-dark mb-2" data-i18n="compliance_title">Compromiso SHA</h2>
+       <p class="text-petrovi-gray font-light max-w-2xl mx-auto" data-i18n="compliance_subtitle">Seguridad y Salud Laboral, Ambiente, Excelencia Operativa</p>
+      </div>
+      <div class="grid md:grid-cols-3 gap-8">
+       <!-- Pilar 1: Seguridad y Salud Laboral -->
+       <div class="bg-gradient-to-br from-petrovi-red/5 to-transparent rounded-2xl p-8 border border-gray-100 fade-up">
+        <div class="w-14 h-14 bg-petrovi-red rounded-xl flex items-center justify-center mb-5"><i data-lucide="hard-hat" style="width:28px;height:28px;color:#fff;"></i>
+        </div>
+        <h3 class="font-bold text-petrovi-dark text-lg mb-4" data-i18n="compliance_safety_title">Seguridad y Salud Laboral</h3>
+        <p class="text-sm text-petrovi-gray font-light leading-relaxed mb-4" data-i18n="compliance_safety_desc">Operamos bajo una cultura de prevención de riesgos, garantizando el uso estricto de EPP y el cumplimiento de la LOPCYMAT para lograr nuestra meta de "Cero Incidentes".</p>
+        <ul class="space-y-2">
+         <li class="flex items-start gap-2 text-xs text-petrovi-gray font-light"><span class="text-petrovi-red font-bold">•</span> <span data-i18n="compliance_safety_item1">Personal capacitado en protocolos de emergencia</span></li>
+         <li class="flex items-start gap-2 text-xs text-petrovi-gray font-light"><span class="text-petrovi-red font-bold">•</span> <span data-i18n="compliance_safety_item2">Cumplimiento total de normativas LOPCYMAT</span></li>
+         <li class="flex items-start gap-2 text-xs text-petrovi-gray font-light"><span class="text-petrovi-red font-bold">•</span> <span data-i18n="compliance_safety_item3">Meta corporativa: "Cero Incidentes"</span></li>
+        </ul>
+       </div><!-- Pilar 2: Protección Ambiental -->
+       <div class="bg-gradient-to-br from-petrovi-yellow/5 to-transparent rounded-2xl p-8 border border-gray-100 fade-up">
+        <div class="w-14 h-14 bg-petrovi-yellow rounded-xl flex items-center justify-center mb-5"><i data-lucide="leaf" style="width:28px;height:28px;color:#1a1a1a;"></i>
+        </div>
+        <h3 class="font-bold text-petrovi-dark text-lg mb-4" data-i18n="compliance_env_title">Protección Ambiental</h3>
+        <p class="text-sm text-petrovi-gray font-light leading-relaxed mb-4" data-i18n="compliance_env_desc">Ejecutamos cada proyecto con responsabilidad ecológica, asegurando el manejo adecuado de desechos y el cumplimiento de las normativas de protección del entorno.</p>
+        <ul class="space-y-2">
+         <li class="flex items-start gap-2 text-xs text-petrovi-gray font-light"><span class="text-petrovi-yellow font-bold">•</span> <span data-i18n="compliance_env_item1">Manejo responsable de residuos</span></li>
+         <li class="flex items-start gap-2 text-xs text-petrovi-gray font-light"><span class="text-petrovi-yellow font-bold">•</span> <span data-i18n="compliance_env_item2">Cumplimiento de normativas ambientales</span></li>
+         <li class="flex items-start gap-2 text-xs text-petrovi-gray font-light"><span class="text-petrovi-yellow font-bold">•</span> <span data-i18n="compliance_env_item3">Desarrollo sostenible en operaciones</span></li>
+        </ul>
+       </div><!-- Pilar 3: Excelencia Operativa -->
+       <div class="bg-gradient-to-br from-gray-400/5 to-transparent rounded-2xl p-8 border border-gray-100 fade-up">
+        <div class="w-14 h-14 bg-petrovi-dark rounded-xl flex items-center justify-center mb-5"><i data-lucide="zap" style="width:28px;height:28px;color:#FFB81C;"></i>
+        </div>
+        <h3 class="font-bold text-petrovi-dark text-lg mb-4" data-i18n="compliance_excellence_title">Excelencia Operativa</h3>
+        <p class="text-sm text-petrovi-gray font-light leading-relaxed mb-4" data-i18n="compliance_excellence_desc">Personal capacitado en protocolos de seguridad industrial, garantizando operaciones confiables en las instalaciones más exigentes del país.</p>
+        <ul class="space-y-2">
+         <li class="flex items-start gap-2 text-xs text-petrovi-gray font-light"><span class="text-petrovi-dark font-bold">•</span> <span data-i18n="compliance_excellence_item1">Capacitación continua del personal</span></li>
+         <li class="flex items-start gap-2 text-xs text-petrovi-gray font-light"><span class="text-petrovi-dark font-bold">•</span> <span data-i18n="compliance_excellence_item2">Operaciones de máxima confiabilidad</span></li>
+         <li class="flex items-start gap-2 text-xs text-petrovi-gray font-light"><span class="text-petrovi-dark font-bold">•</span> <span data-i18n="compliance_excellence_item3">Instalaciones certificadas y seguras</span></li>
+        </ul>
+       </div>
+      </div>
+     </div>
+    </section><!-- CONTACTO -->
+    <section id="contacto" class="w-full py-20 lg:py-28 bg-gray-50">
+     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-14 fade-up">
+       <div class="flex items-center justify-center gap-3 mb-4">
+        <div class="yellow-line"></div><span class="text-petrovi-gray text-xs font-bold tracking-[0.25em] uppercase" data-i18n="contact_tag">Hablemos</span>
+        <div class="yellow-line"></div>
+       </div>
+       <h2 class="text-3xl sm:text-4xl font-black text-petrovi-dark" data-i18n="contact_title">Contacto</h2>
+      </div>
+      <div class="grid lg:grid-cols-2 gap-12"><!-- Form -->
+       <form id="contactForm" class="fade-up space-y-5">
+        <div class="grid sm:grid-cols-2 gap-5">
+         <div><label for="c_name" class="block text-xs font-semibold text-petrovi-dark mb-1.5" data-i18n="form_name">Nombre</label> <input id="c_name" type="text" required class="w-full px-4 py-3 border border-gray-200 rounded-xl text-sm font-light bg-white transition-all">
+         </div>
+         <div><label for="c_email" class="block text-xs font-semibold text-petrovi-dark mb-1.5" data-i18n="form_email">Correo</label> <input id="c_email" type="email" required class="w-full px-4 py-3 border border-gray-200 rounded-xl text-sm font-light bg-white transition-all">
+         </div>
+        </div>
+        <div class="grid sm:grid-cols-2 gap-5">
+         <div><label for="c_company" class="block text-xs font-semibold text-petrovi-dark mb-1.5" data-i18n="form_company">Empresa</label> <input id="c_company" type="text" class="w-full px-4 py-3 border border-gray-200 rounded-xl text-sm font-light bg-white transition-all">
+         </div>
+         <div><label for="c_subject" class="block text-xs font-semibold text-petrovi-dark mb-1.5" data-i18n="form_subject">Asunto</label> <input id="c_subject" type="text" class="w-full px-4 py-3 border border-gray-200 rounded-xl text-sm font-light bg-white transition-all">
+         </div>
+        </div>
+        <div><label for="c_message" class="block text-xs font-semibold text-petrovi-dark mb-1.5" data-i18n="form_message">Mensaje</label> <textarea id="c_message" rows="5" required class="w-full px-4 py-3 border border-gray-200 rounded-xl text-sm font-light bg-white transition-all resize-none"></textarea>
+        </div><button type="submit" id="submitBtn" class="btn-petrovi w-full py-4 rounded-xl font-bold text-sm tracking-wide flex items-center justify-center gap-2"> <span data-i18n="form_send">Enviar Mensaje</span> <i data-lucide="send" style="width:16px;height:16px;"></i> </button>
+        <div id="formToast" class="hidden"></div>
+       </form><!-- Info -->
+       <div class="fade-up space-y-8">
+        <div class="flex items-start gap-4">
+         <div class="w-11 h-11 bg-petrovi-red/10 rounded-xl flex items-center justify-center flex-shrink-0 mt-0.5"><i data-lucide="map-pin" style="width:20px;height:20px;color:#C8102E;"></i>
+         </div>
+         <div>
+          <h4 class="font-bold text-petrovi-dark text-sm mb-1" data-i18n="info_address_label">Dirección</h4>
+          <p class="text-sm text-petrovi-gray font-light leading-relaxed">Avenida Tamanaco, cruce con Calle Mara, Quinta Santa Inés, Urb. Morro III, Lechería, Anzoátegui.</p>
+         </div>
+        </div>
+        <div class="flex items-start gap-4">
+         <div class="w-11 h-11 bg-petrovi-yellow/15 rounded-xl flex items-center justify-center flex-shrink-0 mt-0.5"><i data-lucide="mail" style="width:20px;height:20px;color:#FFB81C;"></i>
+         </div>
+         <div>
+          <h4 class="font-bold text-petrovi-dark text-sm mb-1" data-i18n="info_email_label">Correo</h4>
+          <p id="contactEmail" class="text-sm text-petrovi-gray font-light">info@petrovica.com</p>
+         </div>
+        </div><!-- Map placeholder -->
+        <div class="bg-gray-200 rounded-2xl overflow-hidden" style="height:220px;">
+         <div class="w-full h-full flex flex-col items-center justify-center text-petrovi-gray"><i data-lucide="map" style="width:40px;height:40px;opacity:0.4;"></i> <span class="text-xs font-light mt-2 opacity-60">Lechería, Anzoátegui</span>
+         </div>
+        </div>
+       </div>
+      </div>
+     </div>
+    </section><!-- FOOTER -->
+    <footer class="w-full bg-petrovi-dark py-12 border-t border-white/5">
+     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid md:grid-cols-3 gap-8 mb-8">
+       <!-- Column 1: Logo & Description -->
+       <div>
+        <div class="flex items-center gap-2 mb-4"><img src="https://imgur.com/JXCNyIh.png" alt="Petrovi Logo" class="w-8 h-8 object-contain" loading="lazy" onerror="console.error('Logo failed to load:', this.src); this.style.background='#C8102E';"><span class="text-white font-bold tracking-wide">PETROVI</span>
+        </div>
+        <p class="text-white/85 text-xs font-light leading-relaxed">Corporación Petrovi C.A. — Ingeniería, Procura, Construcción y Desarrollo Minero Integral.</p>
+        <p class="text-white/75 text-xs font-light mt-3"><strong>RIF:</strong> J-409559475-0</p>
+       </div><!-- Column 2: Address -->
+       <div>
+        <h4 class="text-white font-bold text-xs tracking-widest mb-3 uppercase" data-i18n="footer_address_label">Dirección</h4>
+        <p class="text-white/85 text-xs font-light leading-relaxed">Avenida Tamanaco, cruce con Calle Mara, Quinta Santa Inés, Urbanización Morro III, Lechería, Estado Anzoátegui 6016.</p>
+       </div><!-- Column 3: Links -->
+       <div>
+        <h4 class="text-white font-bold text-xs tracking-widest mb-3 uppercase" data-i18n="footer_legal_label">Legal</h4>
+        <div class="flex flex-col gap-2">
+         <a href="#privacy" class="text-white/80 text-xs font-light hover:text-petrovi-yellow transition-colors" data-i18n="footer_privacy">Política de Privacidad</a> <a href="#terms" class="text-white/80 text-xs font-light hover:text-petrovi-yellow transition-colors" data-i18n="footer_terms">Términos de Servicio</a> <a href="#disclaimer" class="text-white/80 text-xs font-light hover:text-petrovi-yellow transition-colors" data-i18n="footer_disclaimer">Descargo de Responsabilidad</a>
+        </div>
+       </div>
+      </div><!-- Divider -->
+      <div class="border-t border-white/10 pt-6">
+       <p class="text-white/75 text-xs font-light text-center">© 2026 <strong>Corporación Petrovi C.A.</strong> RIF: J-409559475-0 — <span data-i18n="footer_rights">Todos los derechos reservados.</span></p>
+      </div>
+     </div>
+    </footer>
+   </section>
+  </div><!-- LEGAL PAGES (Hidden by default) -->
+  <section id="privacy" class="hidden w-full py-20 lg:py-28 bg-white">
+   <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="mb-8"><a href="#inicio" class="inline-flex items-center gap-2 text-petrovi-red hover:text-petrovi-dark text-sm font-semibold mb-6"> <i data-lucide="arrow-left" style="width:16px;height:16px;"></i> <span data-i18n="back">Volver</span> </a>
+     <h1 class="text-4xl font-black text-petrovi-dark mb-2" data-i18n="privacy_title">Política de Privacidad</h1>
+     <p class="text-sm text-petrovi-gray">Última actualización: 2026</p>
+    </div>
+    <div class="prose prose-sm max-w-none text-petrovi-gray font-light space-y-6">
+     <section>
+      <h2 class="text-xl font-bold text-petrovi-dark mb-3" data-i18n="privacy_intro_title">Introducción</h2>
+      <p data-i18n="privacy_intro">Corporación Petrovi C.A. (en adelante "Petrovi", "nosotros" o "la Empresa") se compromete a proteger la privacidad y los datos personales de nuestros clientes, empleados, proveedores y visitantes de nuestros sitios web y plataformas digitales.</p>
+     </section>
+     <section>
+      <h2 class="text-xl font-bold text-petrovi-dark mb-3" data-i18n="privacy_collect_title">Información que Recopilamos</h2>
+      <p data-i18n="privacy_collect">Recopilamos información personal que usted proporciona voluntariamente a través de formularios de contacto, solicitudes de servicios, y comunicaciones directas. Esta información puede incluir: nombre, correo electrónico, empresa, teléfono y detalles sobre su consulta o proyecto.</p>
+     </section>
+     <section>
+      <h2 class="text-xl font-bold text-petrovi-dark mb-3" data-i18n="privacy_use_title">Uso de la Información</h2>
+      <p data-i18n="privacy_use">Utilizamos la información recopilada para: responder a sus consultas, proporcionar servicios solicitados, mantener comunicación profesional, mejorar nuestros servicios, y cumplir con obligaciones legales y normativas aplicables.</p>
+     </section>
+     <section>
+      <h2 class="text-xl font-bold text-petrovi-dark mb-3" data-i18n="privacy_protect_title">Protección de Datos</h2>
+      <p data-i18n="privacy_protect">Implementamos medidas de seguridad técnicas, administrativas y físicas para proteger sus datos personales contra acceso no autorizado, alteración, divulgación o destrucción. Estos datos se procesan de conformidad con las leyes de protección de datos aplicables en Venezuela.</p>
+     </section>
+     <section>
+      <h2 class="text-xl font-bold text-petrovi-dark mb-3" data-i18n="privacy_rights_title">Sus Derechos</h2>
+      <p data-i18n="privacy_rights">Usted tiene derecho a: acceder a sus datos personales, solicitar correcciones, solicitar la eliminación de sus datos, y oponerse al procesamiento de los mismos bajo circunstancias permitidas por la ley. Para ejercer estos derechos, contacte a nuestro equipo de cumplimiento.</p>
+     </section>
+     <section>
+      <h2 class="text-xl font-bold text-petrovi-dark mb-3" data-i18n="privacy_contact_title">Contacto</h2>
+      <p data-i18n="privacy_contact">Para consultas relacionadas con privacidad, contacte a: <strong>privacy@petrovica.com</strong> o comuníquese con nosotros a través de nuestros canales de contacto oficiales.</p>
+     </section>
+    </div>
+   </div>
+  </section><!-- TERMS -->
+  <section id="terms" class="hidden w-full py-20 lg:py-28 bg-white">
+   <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="mb-8"><a href="#inicio" class="inline-flex items-center gap-2 text-petrovi-red hover:text-petrovi-dark text-sm font-semibold mb-6"> <i data-lucide="arrow-left" style="width:16px;height:16px;"></i> <span data-i18n="back">Volver</span> </a>
+     <h1 class="text-4xl font-black text-petrovi-dark mb-2" data-i18n="terms_title">Términos de Servicio</h1>
+     <p class="text-sm text-petrovi-gray">Última actualización: 2026</p>
+    </div>
+    <div class="prose prose-sm max-w-none text-petrovi-gray font-light space-y-6">
+     <section>
+      <h2 class="text-xl font-bold text-petrovi-dark mb-3" data-i18n="terms_intro_title">Acuerdos Generales</h2>
+      <p data-i18n="terms_intro">Al acceder y utilizar los servicios de Corporación Petrovi C.A., usted acepta cumplir con estos Términos de Servicio. Si no acepta estos términos, le pedimos que no utilice nuestros servicios.</p>
+     </section>
+     <section>
+      <h2 class="text-xl font-bold text-petrovi-dark mb-3" data-i18n="terms_services_title">Descripción de Servicios</h2>
+      <p data-i18n="terms_services">Petrovi ofrece servicios de ingeniería, procura, construcción, inspección y desarrollo minero. La disponibilidad y alcance de servicios específicos se definen en propuestas técnicas comerciales individuales y contratos separados.</p>
+     </section>
+     <section>
+      <h2 class="text-xl font-bold text-petrovi-dark mb-3" data-i18n="terms_obligations_title">Obligaciones del Cliente</h2>
+      <p data-i18n="terms_obligations">El cliente se compromete a: proporcionar información precisa y completa, cooperar con nuestro equipo técnico, cumplir con regulaciones de seguridad y protección ambiental, y realizar pagos según lo acordado en contratos específicos.</p>
+     </section>
+     <section>
+      <h2 class="text-xl font-bold text-petrovi-dark mb-3" data-i18n="terms_liability_title">Limitación de Responsabilidad</h2>
+      <p data-i18n="terms_liability">Petrovi no será responsable por daños indirectos, incidentales, especiales o consecuentes derivados del uso o imposibilidad de uso de nuestros servicios. La responsabilidad total está limitada al monto pagado por los servicios en cuestión.</p>
+     </section>
+     <section>
+      <h2 class="text-xl font-bold text-petrovi-dark mb-3" data-i18n="terms_confidentiality_title">Confidencialidad</h2>
+      <p data-i18n="terms_confidentiality">Toda información técnica, datos de prospección, resultados de proyectos y documentación compartida será tratada como confidencial. No será divulgada a terceros sin consentimiento escrito explícito, excepto cuando sea requerido por ley.</p>
+     </section>
+     <section>
+      <h2 class="text-xl font-bold text-petrovi-dark mb-3" data-i18n="terms_changes_title">Cambios en los Términos</h2>
+      <p data-i18n="terms_changes">Petrovi se reserva el derecho de modificar estos términos en cualquier momento. Los cambios serán efectivos inmediatamente. El uso continuado de nuestros servicios constituye aceptación de los términos modificados.</p>
+     </section>
+    </div>
+   </div>
+  </section><!-- DISCLAIMER -->
+  <section id="disclaimer" class="hidden w-full py-20 lg:py-28 bg-white">
+   <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="mb-8"><a href="#inicio" class="inline-flex items-center gap-2 text-petrovi-red hover:text-petrovi-dark text-sm font-semibold mb-6"> <i data-lucide="arrow-left" style="width:16px;height:16px;"></i> <span data-i18n="back">Volver</span> </a>
+     <h1 class="text-4xl font-black text-petrovi-dark mb-2" data-i18n="disclaimer_title">Descargo de Responsabilidad</h1>
+     <p class="text-sm text-petrovi-gray">Última actualización: 2026</p>
+    </div>
+    <div class="prose prose-sm max-w-none text-petrovi-gray font-light space-y-6">
+     <section>
+      <h2 class="text-xl font-bold text-petrovi-dark mb-3" data-i18n="disclaimer_intro_title">Información General</h2>
+      <p data-i18n="disclaimer_intro">El contenido presentado en este sitio web y en las comunicaciones de Petrovi se proporciona únicamente con fines informativos. No constituye asesoría legal, financiera, técnica o profesional específica.</p>
+     </section>
+     <section>
+      <h2 class="text-xl font-bold text-petrovi-dark mb-3" data-i18n="disclaimer_accuracy_title">Precisión del Contenido</h2>
+      <p data-i18n="disclaimer_accuracy">Petrovi se esfuerza por mantener información precisa y actualizada. Sin embargo, no garantiza la exactitud, integridad o actualidad de todo el contenido. El uso del contenido es bajo responsabilidad exclusiva del usuario.</p>
+     </section>
+     <section>
+      <h2 class="text-xl font-bold text-petrovi-dark mb-3" data-i18n="disclaimer_external_title">Enlaces Externos</h2>
+      <p data-i18n="disclaimer_external">Este sitio puede contener enlaces a sitios web de terceros. Petrovi no es responsable por el contenido, precisión o prácticas de privacidad de sitios externos. El acceso a enlaces externos es bajo riesgo del usuario.</p>
+     </section>
+     <section>
+      <h2 class="text-xl font-bold text-petrovi-dark mb-3" data-i18n="disclaimer_professional_title">Consulta Profesional</h2>
+      <p data-i18n="disclaimer_professional">Para decisiones importantes relacionadas con proyectos, inversiones o conformidad regulatoria, recomendamos consultar con profesionales especializados. Petrovi proporciona servicios específicos bajo contratos formales separados.</p>
+     </section>
+     <section>
+      <h2 class="text-xl font-bold text-petrovi-dark mb-3" data-i18n="disclaimer_liability_title">Limitación de Responsabilidad</h2>
+      <p data-i18n="disclaimer_liability">Petrovi no será responsable por pérdidas, daños o inconvenientes resultantes del uso o confianza en la información contenida en este sitio web o comunicaciones.</p>
+     </section>
+     <section>
+      <h2 class="text-xl font-bold text-petrovi-dark mb-3" data-i18n="disclaimer_modifications_title">Modificaciones</h2>
+      <p data-i18n="disclaimer_modifications">Petrovi se reserva el derecho de modificar o eliminar contenido del sitio web en cualquier momento sin previo aviso.</p>
+     </section>
+    </div>
+   </div>
+  </section><!-- WhatsApp Floating Menu -->
+  <div id="whatsappContainer" class="fixed bottom-6 right-6 z-40 flex flex-col items-end gap-3">
+   <!-- Menu Items (hidden by default) -->
+   <div id="whatsappMenu" class="hidden flex flex-col gap-2 bg-white rounded-2xl shadow-lg border border-gray-100 overflow-hidden" style="min-width:280px;">
+    <div class="px-5 py-4 bg-gradient-to-r from-green-50 to-emerald-50 border-b border-gray-100">
+     <h3 class="font-bold text-sm text-green-900" data-i18n="whatsapp_title">Contáctanos</h3>
+     <p class="text-xs text-green-700 font-light mt-1" data-i18n="whatsapp_subtitle">Selecciona una opción</p>
+    </div><!-- Option 1 --> <button class="whatsapp-option px-5 py-3 hover:bg-green-50 transition-colors text-left border-b border-gray-100 flex items-start gap-3" data-phone="04147975515" data-msg="Hola, me gustaría información sobre los servicios de Petrovi."> <i data-lucide="phone" style="width:18px;height:18px;color:#22c55e;margin-top:2px;flex-shrink:0;"></i>
+     <div class="flex-1 min-w-0">
+      <p class="text-xs font-semibold text-gray-900">Opción 1</p>
+      <p class="text-xs text-gray-600 font-light">+58 414 797 5515</p>
+     </div></button> <!-- Option 2 --> <button class="whatsapp-option px-5 py-3 hover:bg-green-50 transition-colors text-left flex items-start gap-3" data-phone="04248550609" data-msg="Hola, me gustaría información sobre los servicios de Petrovi."> <i data-lucide="phone" style="width:18px;height:18px;color:#22c55e;margin-top:2px;flex-shrink:0;"></i>
+     <div class="flex-1 min-w-0">
+      <p class="text-xs font-semibold text-gray-900">Opción 2</p>
+      <p class="text-xs text-gray-600 font-light">+58 424 855 0609</p>
+     </div></button>
+   </div><!-- Main Button --> <button id="whatsappBtn" class="flex items-center justify-center w-14 h-14 bg-gradient-to-br from-green-400 to-green-600 text-white rounded-full shadow-lg hover:shadow-xl transition-all hover:scale-110 active:scale-95" title="WhatsApp"> <i data-lucide="message-circle" style="width:24px;height:24px;"></i> </button>
+  </div>
+  <script>
+// WhatsApp menu handler
+document.getElementById('whatsappBtn').addEventListener('click', () => {
+  const menu = document.getElementById('whatsappMenu');
+  menu.classList.toggle('hidden');
+});
+
+// WhatsApp option handler
+document.querySelectorAll('.whatsapp-option').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const phone = btn.getAttribute('data-phone');
+    const msg = btn.getAttribute('data-msg');
+    const encodedMsg = encodeURIComponent(msg);
+    const whatsappUrl = `https://wa.me/${phone}?text=${encodedMsg}`;
+    window.open(whatsappUrl, '_blank');
+    document.getElementById('whatsappMenu').classList.add('hidden');
+  });
+});
+
+// Close menu when clicking outside
+document.addEventListener('click', (e) => {
+  const container = document.getElementById('whatsappContainer');
+  if (!container.contains(e.target)) {
+    document.getElementById('whatsappMenu').classList.add('hidden');
+  }
+});
+
+// i18n translations
+const translations = {
+  es: {
+    nav_inicio: 'Inicio', nav_nosotros: 'Nosotros', nav_servicios: 'Servicios', nav_sectores: 'Sectores', nav_compliance: 'Cumplimiento', nav_contacto: 'Contacto',
+    whatsapp_title: 'Contáctanos por WhatsApp', whatsapp_subtitle: 'Selecciona un número',
+    hero_tag: 'Ingeniería · Procura · Construcción · Minería',
+    hero_title: 'Innovación y Construcción Industrial de Gran Alcance',
+    hero_subtitle: 'Soluciones integrales en ingeniería, mantenimiento y desarrollo minero bajo los más altos estándares de seguridad y precisión técnica.',
+    hero_btn: 'Ver Nuestros Servicios',
+    about_tag: 'Nuestra Esencia', about_title: 'Quiénes Somos',
+    about_text: 'Con una sólida trayectoria de excelencia iniciada en 2017, Corporación Petrovi C.A. se ha consolidado como un aliado estratégico líder en servicios de ingeniería y mantenimiento industrial. Nos especializamos en garantizar la continuidad operativa de los sectores petrolero, minero y civil, mediante un modelo de gestión eficiente y soluciones técnicas de alta precisión.',
+    about_mining: '"Llevamos la ingeniería al terreno, gestionando proyectos de exploración y explotación minera con un enfoque en sostenibilidad y rentabilidad."',
+    stat_years: 'Años de Experiencia', stat_commitment: 'Compromiso Operativo', stat_safety_title: 'Seguridad SIAHO', stat_safety_desc: 'Protocolos de alto nivel certificados',
+    services_tag: 'Lo Que Hacemos', services_title: 'Nuestros Servicios',
+    srv1_title: 'Metalmecánica y Mantenimiento', srv1_desc: 'Fabricación de estructuras, soldadura especializada y mantenimiento preventivo de plantas.',
+    srv2_title: 'Ingeniería y Desarrollo Minero', srv2_desc: 'Gestión integral de proyectos de exploración y explotación, asegurando eficiencia operativa en yacimientos.',
+    srv3_title: 'Construcción e Inspección', srv3_desc: 'Ejecución de obras civiles y supervisión técnica rigurosa de proyectos de infraestructura.',
+    srv4_title: 'Procura y Suministros', srv4_desc: 'Dotación estratégica de insumos industriales y repuestos críticos para paradas de planta y emergencias.',
+    sectors_tag: 'Especialidades', sectors_title: 'Sectores de Especialidad',
+    sec1_title: 'Energía y Petróleo', sec1_desc: 'Soporte técnico a la cadena de valor de hidrocarburos.',
+    sec2_title: 'Minería Estratégica', sec2_desc: 'Desarrollo de infraestructura y logística para el sector minero.',
+    sec3_title: 'Infraestructura Civil', sec3_desc: 'Construcción urbana y vialidad industrial.',
+    compliance_tag: 'Nuestro Compromiso', compliance_title: 'Compromiso SHA', compliance_subtitle: 'Seguridad y Salud Laboral, Ambiente, Excelencia Operativa',
+    compliance_safety_title: 'Seguridad y Salud Laboral', compliance_safety_desc: 'Operamos bajo una cultura de prevención de riesgos, garantizando el uso estricto de EPP y el cumplimiento de la LOPCYMAT para lograr nuestra meta de "Cero Incidentes".', compliance_safety_item1: 'Personal capacitado en protocolos de emergencia', compliance_safety_item2: 'Cumplimiento total de normativas LOPCYMAT', compliance_safety_item3: 'Meta corporativa: "Cero Incidentes"',
+    compliance_env_title: 'Protección Ambiental', compliance_env_desc: 'Ejecutamos cada proyecto con responsabilidad ecológica, asegurando el manejo adecuado de desechos y el cumplimiento de las normativas de protección del entorno.', compliance_env_item1: 'Manejo responsable de residuos', compliance_env_item2: 'Cumplimiento de normativas ambientales', compliance_env_item3: 'Desarrollo sostenible en operaciones',
+    compliance_excellence_title: 'Excelencia Operativa', compliance_excellence_desc: 'Personal capacitado en protocolos de seguridad industrial, garantizando operaciones confiables en las instalaciones más exigentes del país.', compliance_excellence_item1: 'Capacitación continua del personal', compliance_excellence_item2: 'Operaciones de máxima confiabilidad', compliance_excellence_item3: 'Instalaciones certificadas y seguras',
+    contact_tag: 'Hablemos', contact_title: 'Contacto',
+    form_name: 'Nombre', form_email: 'Correo', form_company: 'Empresa', form_subject: 'Asunto', form_message: 'Mensaje', form_send: 'Enviar Mensaje',
+    info_address_label: 'Dirección', info_email_label: 'Correo',
+    footer_rights: 'Todos los derechos reservados.',
+    footer_address_label: 'Dirección',
+    footer_legal_label: 'Legal',
+    footer_privacy: 'Política de Privacidad',
+    footer_terms: 'Términos de Servicio',
+    footer_disclaimer: 'Descargo de Responsabilidad',
+    back: 'Volver',
+    privacy_title: 'Política de Privacidad',
+    privacy_intro_title: 'Introducción',
+    privacy_intro: 'Corporación Petrovi C.A. (en adelante "Petrovi", "nosotros" o "la Empresa") se compromete a proteger la privacidad y los datos personales de nuestros clientes, empleados, proveedores y visitantes de nuestros sitios web y plataformas digitales.',
+    privacy_collect_title: 'Información que Recopilamos',
+    privacy_collect: 'Recopilamos información personal que usted proporciona voluntariamente a través de formularios de contacto, solicitudes de servicios, y comunicaciones directas. Esta información puede incluir: nombre, correo electrónico, empresa, teléfono y detalles sobre su consulta o proyecto.',
+    privacy_use_title: 'Uso de la Información',
+    privacy_use: 'Utilizamos la información recopilada para: responder a sus consultas, proporcionar servicios solicitados, mantener comunicación profesional, mejorar nuestros servicios, y cumplir con obligaciones legales y normativas aplicables.',
+    privacy_protect_title: 'Protección de Datos',
+    privacy_protect: 'Implementamos medidas de seguridad técnicas, administrativas y físicas para proteger sus datos personales contra acceso no autorizado, alteración, divulgación o destrucción. Estos datos se procesan de conformidad con las leyes de protección de datos aplicables en Venezuela.',
+    privacy_rights_title: 'Sus Derechos',
+    privacy_rights: 'Usted tiene derecho a: acceder a sus datos personales, solicitar correcciones, solicitar la eliminación de sus datos, y oponerse al procesamiento de los mismos bajo circunstancias permitidas por la ley. Para ejercer estos derechos, contacte a nuestro equipo de cumplimiento.',
+    privacy_contact_title: 'Contacto',
+    privacy_contact: 'Para consultas relacionadas con privacidad, contacte a: privacy@petrovica.com o comuníquese con nosotros a través de nuestros canales de contacto oficiales.',
+    terms_title: 'Términos de Servicio',
+    terms_intro_title: 'Acuerdos Generales',
+    terms_intro: 'Al acceder y utilizar los servicios de Corporación Petrovi C.A., usted acepta cumplir con estos Términos de Servicio. Si no acepta estos términos, le pedimos que no utilice nuestros servicios.',
+    terms_services_title: 'Descripción de Servicios',
+    terms_services: 'Petrovi ofrece servicios de ingeniería, procura, construcción, inspección y desarrollo minero. La disponibilidad y alcance de servicios específicos se definen en propuestas técnicas comerciales individuales y contratos separados.',
+    terms_obligations_title: 'Obligaciones del Cliente',
+    terms_obligations: 'El cliente se compromete a: proporcionar información precisa y completa, cooperar con nuestro equipo técnico, cumplir con regulaciones de seguridad y protección ambiental, y realizar pagos según lo acordado en contratos específicos.',
+    terms_liability_title: 'Limitación de Responsabilidad',
+    terms_liability: 'Petrovi no será responsable por daños indirectos, incidentales, especiales o consecuentes derivados del uso o imposibilidad de uso de nuestros servicios. La responsabilidad total está limitada al monto pagado por los servicios en cuestión.',
+    terms_confidentiality_title: 'Confidencialidad',
+    terms_confidentiality: 'Toda información técnica, datos de prospección, resultados de proyectos y documentación compartida será tratada como confidencial. No será divulgada a terceros sin consentimiento escrito explícito, excepto cuando sea requerido por ley.',
+    terms_changes_title: 'Cambios en los Términos',
+    terms_changes: 'Petrovi se reserva el derecho de modificar estos términos en cualquier momento. Los cambios serán efectivos inmediatamente. El uso continuado de nuestros servicios constituye aceptación de los términos modificados.',
+    disclaimer_title: 'Descargo de Responsabilidad',
+    disclaimer_intro_title: 'Información General',
+    disclaimer_intro: 'El contenido presentado en este sitio web y en las comunicaciones de Petrovi se proporciona únicamente con fines informativos. No constituye asesoría legal, financiera, técnica o profesional específica.',
+    disclaimer_accuracy_title: 'Precisión del Contenido',
+    disclaimer_accuracy: 'Petrovi se esfuerza por mantener información precisa y actualizada. Sin embargo, no garantiza la exactitud, integridad o actualidad de todo el contenido. El uso del contenido es bajo responsabilidad exclusiva del usuario.',
+    disclaimer_external_title: 'Enlaces Externos',
+    disclaimer_external: 'Este sitio puede contener enlaces a sitios web de terceros. Petrovi no es responsable por el contenido, precisión o prácticas de privacidad de sitios externos. El acceso a enlaces externos es bajo riesgo del usuario.',
+    disclaimer_professional_title: 'Consulta Profesional',
+    disclaimer_professional: 'Para decisiones importantes relacionadas con proyectos, inversiones o conformidad regulatoria, recomendamos consultar con profesionales especializados. Petrovi proporciona servicios específicos bajo contratos formales separados.',
+    disclaimer_liability_title: 'Limitación de Responsabilidad',
+    disclaimer_liability: 'Petrovi no será responsable por pérdidas, daños o inconvenientes resultantes del uso o confianza en la información contenida en este sitio web o comunicaciones.',
+    disclaimer_modifications_title: 'Modificaciones',
+    disclaimer_modifications: 'Petrovi se reserva el derecho de modificar o eliminar contenido del sitio web en cualquier momento sin previo aviso.',
+    toast_success: '¡Mensaje enviado con éxito!', toast_error: 'Error al enviar. Intente de nuevo.'
+  },
+  en: {
+    nav_inicio: 'Home', nav_nosotros: 'About', nav_servicios: 'Services', nav_sectores: 'Sectors', nav_compliance: 'Compliance', nav_contacto: 'Contact',
+    whatsapp_title: 'Contact Us on WhatsApp', whatsapp_subtitle: 'Select a number',
+    hero_tag: 'Engineering · Procurement · Construction · Mining',
+    hero_title: 'Innovation and Large-Scale Industrial Construction',
+    hero_subtitle: 'Comprehensive solutions in engineering, maintenance and mining development under the highest standards of safety and technical precision.',
+    hero_btn: 'View Our Services',
+    about_tag: 'Our Essence', about_title: 'Who We Are',
+    about_text: 'With a solid track record of excellence since 2017, Corporación Petrovi C.A. has established itself as a leading strategic partner in engineering and industrial maintenance services. We specialize in ensuring operational continuity in the oil, mining and civil sectors through efficient management and high-precision technical solutions.',
+    about_mining: '"We bring engineering to the field, managing exploration and mining projects with a focus on sustainability and profitability."',
+    stat_years: 'Years of Experience', stat_commitment: 'Operational Commitment', stat_safety_title: 'SIAHO Safety', stat_safety_desc: 'High-level certified protocols',
+    services_tag: 'What We Do', services_title: 'Our Services',
+    srv1_title: 'Metalworking & Maintenance', srv1_desc: 'Steel structure fabrication, specialized welding and preventive plant maintenance.',
+    srv2_title: 'Engineering & Mining Development', srv2_desc: 'Comprehensive management of exploration and exploitation projects, ensuring operational efficiency in deposits.',
+    srv3_title: 'Construction & Inspection', srv3_desc: 'Civil works execution and rigorous technical supervision of infrastructure projects.',
+    srv4_title: 'Procurement & Supplies', srv4_desc: 'Strategic supply of industrial materials and critical spare parts for plant shutdowns and emergencies.',
+    sectors_tag: 'Specialties', sectors_title: 'Sectors of Expertise',
+    sec1_title: 'Energy & Oil', sec1_desc: 'Technical support for the hydrocarbon value chain.',
+    sec2_title: 'Strategic Mining', sec2_desc: 'Infrastructure development and logistics for the mining sector.',
+    sec3_title: 'Civil Infrastructure', sec3_desc: 'Urban construction and industrial roadways.',
+    compliance_tag: 'Our Commitment', compliance_title: 'SHA Commitment', compliance_subtitle: 'Occupational Health and Safety, Environment, Operational Excellence',
+    compliance_safety_title: 'Occupational Health and Safety', compliance_safety_desc: 'We operate under a risk prevention culture, guaranteeing strict use of PPE and compliance with LOPCYMAT to achieve our "Zero Incidents" goal.', compliance_safety_item1: 'Personnel trained in emergency protocols', compliance_safety_item2: 'Full compliance with LOPCYMAT regulations', compliance_safety_item3: 'Corporate goal: "Zero Incidents"',
+    compliance_env_title: 'Environmental Protection', compliance_env_desc: 'We execute each project with ecological responsibility, ensuring proper waste management and compliance with environmental protection regulations.', compliance_env_item1: 'Responsible waste management', compliance_env_item2: 'Compliance with environmental regulations', compliance_env_item3: 'Sustainable development in operations',
+    compliance_excellence_title: 'Operational Excellence', compliance_excellence_desc: 'Personnel trained in industrial safety protocols, guaranteeing reliable operations in the most demanding facilities in the country.', compliance_excellence_item1: 'Continuous staff training', compliance_excellence_item2: 'Maximum reliability operations', compliance_excellence_item3: 'Certified and safe facilities',
+    contact_tag: "Let's Talk", contact_title: 'Contact',
+    form_name: 'Name', form_email: 'Email', form_company: 'Company', form_subject: 'Subject', form_message: 'Message', form_send: 'Send Message',
+    info_address_label: 'Address', info_email_label: 'Email',
+    footer_legal_label: 'Legal',
+    footer_privacy: 'Privacy Policy',
+    footer_terms: 'Terms of Service',
+    footer_disclaimer: 'Disclaimer',
+    back: 'Back',
+    privacy_title: 'Privacy Policy',
+    privacy_intro_title: 'Introduction',
+    privacy_intro: 'Corporación Petrovi C.A. ("Petrovi", "us" or "the Company") is committed to protecting the privacy and personal data of our clients, employees, suppliers and visitors to our websites and digital platforms.',
+    privacy_collect_title: 'Information We Collect',
+    privacy_collect: 'We collect personal information that you voluntarily provide through contact forms, service requests, and direct communications. This information may include: name, email address, company, phone number and details about your inquiry or project.',
+    privacy_use_title: 'Use of Information',
+    privacy_use: 'We use the information collected to: respond to your inquiries, provide requested services, maintain professional communication, improve our services, and comply with applicable legal and regulatory obligations.',
+    privacy_protect_title: 'Data Protection',
+    privacy_protect: 'We implement technical, administrative and physical security measures to protect your personal data against unauthorized access, alteration, disclosure or destruction. This data is processed in accordance with applicable data protection laws in Venezuela.',
+    privacy_rights_title: 'Your Rights',
+    privacy_rights: 'You have the right to: access your personal data, request corrections, request deletion of your data, and object to processing of your data under circumstances permitted by law. To exercise these rights, contact our compliance team.',
+    privacy_contact_title: 'Contact',
+    privacy_contact: 'For privacy-related inquiries, contact: privacy@petrovica.com or reach out through our official contact channels.',
+    terms_title: 'Terms of Service',
+    terms_intro_title: 'General Agreements',
+    terms_intro: 'By accessing and using the services of Corporación Petrovi C.A., you agree to comply with these Terms of Service. If you do not accept these terms, we ask that you do not use our services.',
+    terms_services_title: 'Description of Services',
+    terms_services: 'Petrovi offers engineering, procurement, construction, inspection and mining development services. The availability and scope of specific services are defined in individual commercial technical proposals and separate contracts.',
+    terms_obligations_title: 'Client Obligations',
+    terms_obligations: 'The client commits to: provide accurate and complete information, cooperate with our technical team, comply with safety and environmental protection regulations, and make payments as agreed in specific contracts.',
+    terms_liability_title: 'Limitation of Liability',
+    terms_liability: 'Petrovi shall not be liable for indirect, incidental, special or consequential damages arising from the use or inability to use our services. Total liability is limited to the amount paid for the services in question.',
+    terms_confidentiality_title: 'Confidentiality',
+    terms_confidentiality: 'All technical information, prospecting data, project results and shared documentation will be treated as confidential. It will not be disclosed to third parties without explicit written consent, except when required by law.',
+    terms_changes_title: 'Changes to Terms',
+    terms_changes: 'Petrovi reserves the right to modify these terms at any time. Changes will be effective immediately. Continued use of our services constitutes acceptance of the modified terms.',
+    disclaimer_title: 'Disclaimer',
+    disclaimer_intro_title: 'General Information',
+    disclaimer_intro: 'The content presented on this website and in Petrovi communications is provided for informational purposes only. It does not constitute specific legal, financial, technical or professional advice.',
+    disclaimer_accuracy_title: 'Accuracy of Content',
+    disclaimer_accuracy: 'Petrovi strives to maintain accurate and up-to-date information. However, we do not guarantee the accuracy, completeness or timeliness of all content. Use of content is at the sole responsibility of the user.',
+    disclaimer_external_title: 'External Links',
+    disclaimer_external: 'This site may contain links to third-party websites. Petrovi is not responsible for the content, accuracy or privacy practices of external sites. Access to external links is at the user\'s risk.',
+    disclaimer_professional_title: 'Professional Consultation',
+    disclaimer_professional: 'For important decisions related to projects, investments or regulatory compliance, we recommend consulting specialized professionals. Petrovi provides specific services under separate formal contracts.',
+    disclaimer_liability_title: 'Limitation of Liability',
+    disclaimer_liability: 'Petrovi shall not be responsible for losses, damages or inconveniences resulting from reliance on information contained on this website or communications.',
+    disclaimer_modifications_title: 'Modifications',
+    disclaimer_modifications: 'Petrovi reserves the right to modify or delete website content at any time without prior notice.',
+    toast_success: 'Message sent successfully!', toast_error: 'Error sending. Please try again.'
+  }
+};
+
+let currentLang = 'es';
+
+function setLang(lang) {
+  currentLang = lang;
+  document.getElementById('langLabel').textContent = lang.toUpperCase();
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const key = el.getAttribute('data-i18n');
+    if (translations[lang][key]) {
+      // For hero title/subtitle, check config first
+      if (key === 'hero_title' && window.elementSdk && window.elementSdk.config && window.elementSdk.config.hero_title) {
+        el.textContent = window.elementSdk.config.hero_title;
+        return;
+      }
+      if (key === 'hero_subtitle' && window.elementSdk && window.elementSdk.config && window.elementSdk.config.hero_subtitle) {
+        el.textContent = window.elementSdk.config.hero_subtitle;
+        return;
+      }
+      el.textContent = translations[lang][key];
+    }
+  });
+}
+
+// Mobile menu
+function closeMobile() { document.getElementById('mobileMenu').classList.add('hidden'); }
+document.getElementById('mobileMenuBtn').addEventListener('click', () => {
+  document.getElementById('mobileMenu').classList.toggle('hidden');
+});
+document.getElementById('langToggle').addEventListener('click', () => {
+  setLang(currentLang === 'es' ? 'en' : 'es');
+});
+
+// Legal pages navigation
+function showPage(pageId) {
+  const mainSections = ['inicio', 'nosotros', 'servicios', 'sectores', 'contacto'];
+  const legalSections = ['privacy', 'terms', 'disclaimer'];
+  
+  // Hide all sections
+  mainSections.forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.style.display = 'none';
+  });
+  legalSections.forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.style.display = 'none';
+  });
+  
+  // Show selected page
+  if (pageId && (legalSections.includes(pageId) || mainSections.includes(pageId))) {
+    const el = document.getElementById(pageId);
+    if (el) el.style.display = 'block';
+    window.scrollTo(0, 0);
+  } else if (!pageId) {
+    // Show main content
+    mainSections.forEach(id => {
+      const el = document.getElementById(id);
+      if (el) el.style.display = 'block';
+    });
+    window.scrollTo(0, 0);
+  }
+}
+
+// Hash routing
+window.addEventListener('hashchange', () => {
+  const hash = window.location.hash.slice(1);
+  if (hash === 'privacy' || hash === 'terms' || hash === 'disclaimer') {
+    showPage(hash);
+  } else if (!hash || hash === 'inicio') {
+    showPage(null);
+  }
+});
+
+// Initial page load
+const initialHash = window.location.hash.slice(1);
+if (initialHash === 'privacy' || initialHash === 'terms' || initialHash === 'disclaimer') {
+  showPage(initialHash);
+}
+
+// Scroll animations
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.15 });
+document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+
+// Data SDK for contact form
+const dataHandler = { onDataChanged() {} };
+
+async function initData() {
+  if (window.dataSdk) {
+    const r = await window.dataSdk.init(dataHandler);
+    if (!r.isOk) console.error('Data SDK init failed');
+  }
+}
+initData();
+
+// Contact form
+document.getElementById('contactForm').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const btn = document.getElementById('submitBtn');
+  const toast = document.getElementById('formToast');
+  btn.disabled = true;
+  btn.innerHTML = '<span class="inline-block w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></span>';
+
+  const data = {
+    name: document.getElementById('c_name').value,
+    email: document.getElementById('c_email').value,
+    company: document.getElementById('c_company').value || '',
+    subject: document.getElementById('c_subject').value || '',
+    message: document.getElementById('c_message').value,
+    submitted_at: new Date().toISOString()
+  };
+
+  const lang = translations[currentLang];
+  if (window.dataSdk) {
+    const result = await window.dataSdk.create(data);
+    if (result.isOk) {
+      toast.className = 'toast-msg mt-4 p-4 bg-green-50 border border-green-200 rounded-xl text-green-700 text-sm font-medium text-center';
+      toast.textContent = lang.toast_success;
+      e.target.reset();
+    } else {
+      toast.className = 'toast-msg mt-4 p-4 bg-red-50 border border-red-200 rounded-xl text-red-700 text-sm font-medium text-center';
+      toast.textContent = lang.toast_error;
+    }
+  } else {
+    toast.className = 'toast-msg mt-4 p-4 bg-green-50 border border-green-200 rounded-xl text-green-700 text-sm font-medium text-center';
+    toast.textContent = lang.toast_success;
+    e.target.reset();
+  }
+
+  btn.disabled = false;
+  btn.innerHTML = `<span data-i18n="form_send">${lang.form_send}</span><i data-lucide="send" style="width:16px;height:16px;"></i>`;
+  lucide.createIcons();
+  setTimeout(() => { toast.className = 'hidden'; }, 4000);
+});
+
+// Element SDK
+const defaultConfig = {
+  background_color: '#ffffff',
+  surface_color: '#f9fafb',
+  text_color: '#1a1a1a',
+  primary_action_color: '#C8102E',
+  secondary_action_color: '#FFB81C',
+  font_family: 'Montserrat',
+  font_size: 16,
+  hero_title: '',
+  hero_subtitle: '',
+  contact_email: 'info@petrovica.com'
+};
+
+function applyConfig(config) {
+  const bg = config.background_color || defaultConfig.background_color;
+  const surface = config.surface_color || defaultConfig.surface_color;
+  const text = config.text_color || defaultConfig.text_color;
+  const primary = config.primary_action_color || defaultConfig.primary_action_color;
+  const accent = config.secondary_action_color || defaultConfig.secondary_action_color;
+  const font = config.font_family || defaultConfig.font_family;
+  const baseSize = config.font_size || defaultConfig.font_size;
+
+  // Background sections
+  document.querySelectorAll('#nosotros, #sectores').forEach(s => s.style.backgroundColor = bg);
+  document.querySelectorAll('#servicios, #contacto').forEach(s => s.style.backgroundColor = surface);
+
+  // Text color
+  document.querySelectorAll('h1,h2,h3,h4').forEach(el => {
+    if (!el.closest('.bg-petrovi-red') && !el.closest('.bg-petrovi-dark') && !el.closest('footer')) {
+      el.style.color = text;
+    }
+  });
+
+  // Primary action color on logo blocks and buttons
+  document.querySelectorAll('.btn-petrovi').forEach(el => el.style.backgroundColor = primary);
+  document.querySelectorAll('.bg-petrovi-red').forEach(el => {
+    if (!el.closest('footer') || el.closest('.w-10, .w-8')) el.style.backgroundColor = primary;
+  });
+
+  // Yellow accent
+  document.querySelectorAll('.yellow-line').forEach(el => el.style.backgroundColor = accent);
+
+  // Font
+  const stack = `${font}, Montserrat, sans-serif`;
+  document.getElementById('app').style.fontFamily = stack;
+
+  // Font size
+  document.querySelectorAll('p:not(footer p)').forEach(el => el.style.fontSize = `${baseSize * 0.875}px`);
+
+  // Custom text
+  const heroTitle = config.hero_title || translations[currentLang].hero_title;
+  const heroSub = config.hero_subtitle || translations[currentLang].hero_subtitle;
+  document.getElementById('heroTitle').textContent = heroTitle;
+  document.getElementById('heroSubtitle').textContent = heroSub;
+  document.getElementById('contactEmail').textContent = config.contact_email || defaultConfig.contact_email;
+}
+
+if (window.elementSdk) {
+  window.elementSdk.init({
+    defaultConfig,
+    onConfigChange: async (config) => applyConfig(config),
+    mapToCapabilities: (config) => ({
+      recolorables: [
+        { get: () => config.background_color || defaultConfig.background_color, set: (v) => { config.background_color = v; window.elementSdk.setConfig({ background_color: v }); } },
+        { get: () => config.surface_color || defaultConfig.surface_color, set: (v) => { config.surface_color = v; window.elementSdk.setConfig({ surface_color: v }); } },
+        { get: () => config.text_color || defaultConfig.text_color, set: (v) => { config.text_color = v; window.elementSdk.setConfig({ text_color: v }); } },
+        { get: () => config.primary_action_color || defaultConfig.primary_action_color, set: (v) => { config.primary_action_color = v; window.elementSdk.setConfig({ primary_action_color: v }); } },
+        { get: () => config.secondary_action_color || defaultConfig.secondary_action_color, set: (v) => { config.secondary_action_color = v; window.elementSdk.setConfig({ secondary_action_color: v }); } }
+      ],
+      borderables: [],
+      fontEditable: { get: () => config.font_family || defaultConfig.font_family, set: (v) => { config.font_family = v; window.elementSdk.setConfig({ font_family: v }); } },
+      fontSizeable: { get: () => config.font_size || defaultConfig.font_size, set: (v) => { config.font_size = v; window.elementSdk.setConfig({ font_size: v }); } }
+    }),
+    mapToEditPanelValues: (config) => new Map([
+      ['hero_title', config.hero_title || defaultConfig.hero_title],
+      ['hero_subtitle', config.hero_subtitle || defaultConfig.hero_subtitle],
+      ['contact_email', config.contact_email || defaultConfig.contact_email]
+    ])
+  });
+}
+
+// Init icons
+lucide.createIcons();
+</script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'a0181bc08a00f94d',t:'MTc3OTc0OTUyNA=='};var a=document.createElement('script');a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
