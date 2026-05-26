@@ -43,6 +43,10 @@ html, body { height: 100%; margin: 0; font-family: 'Montserrat', sans-serif; }
 .mobile-menu { animation: slideDown 0.3s ease; }
 .toast-msg { animation: slideDown 0.4s ease; }
 .floating-logo { animation: float 4s ease-in-out infinite; }
+.gallery-item { overflow: hidden; border-radius: 1rem; transition: transform 0.3s ease; }
+.gallery-item:hover { transform: scale(1.08); }
+.gallery-img { transition: transform 0.3s ease; width: 100%; height: 100%; }
+.gallery-item:hover .gallery-img { transform: scale(1.1); }
 input:focus, textarea:focus { outline: none; border-color: #C8102E; box-shadow: 0 0 0 3px rgba(200,16,46,0.15); }
 </style>
   <style>body { box-sizing: border-box; }</style>
@@ -50,33 +54,25 @@ input:focus, textarea:focus { outline: none; border-color: #C8102E; box-shadow: 
  <body class="h-full bg-white text-petrovi-dark font-mont">
   <div id="app" class="w-full h-full overflow-auto">
    <header id="mainHeader" class="fixed top-0 left-0 w-full z-50 bg-white/95 backdrop-blur-md border-b border-gray-100 transition-all duration-300">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between h-16 md:h-20">
-     <!-- Logo -->
-     <div class="flex items-center gap-2 flex-shrink-0"><img src="https://imgur.com/JXCNyIh.png" alt="Petrovi Logo" class="w-10 h-10 md:w-12 md:h-12 object-contain" loading="lazy" onerror="console.error('Logo failed to load:', this.src); this.style.background='#C8102E'; this.alt='Petrovi Logo';">
-      <div class="leading-tight">
-       <span class="font-bold text-petrovi-dark text-sm md:text-base tracking-wide">PETROVI</span> <span class="block text-[9px] md:text-[10px] text-petrovi-gray tracking-widest">CORPORACIÓN C.A.</span>
-      </div>
-     </div><!-- Desktop Nav -->
-     <nav class="hidden md:flex items-center gap-8">
-      <a href="#inicio" class="nav-link text-sm font-semibold text-petrovi-dark hover:text-petrovi-red" data-i18n="nav_inicio">Inicio</a> <a href="#nosotros" class="nav-link text-sm font-semibold text-petrovi-dark hover:text-petrovi-red" data-i18n="nav_nosotros">Nosotros</a> <a href="#servicios" class="nav-link text-sm font-semibold text-petrovi-dark hover:text-petrovi-red" data-i18n="nav_servicios">Servicios</a> <a href="#sectores" class="nav-link text-sm font-semibold text-petrovi-dark hover:text-petrovi-red" data-i18n="nav_sectores">Sectores</a> <a href="#compromiso" class="nav-link text-sm font-semibold text-petrovi-dark hover:text-petrovi-red" data-i18n="nav_compliance">Cumplimiento</a> <a href="#contacto" class="nav-link text-sm font-semibold text-petrovi-dark hover:text-petrovi-red" data-i18n="nav_contacto">Contacto</a>
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between h-16 md:h-20"><!-- Logo --> <a href="#inicio" onclick="window.location.hash='inicio'" class="flex items-center gap-2 flex-shrink-0 cursor-pointer"><img src="https://imgur.com/JXCNyIh.png" alt="Petrovi Logo" class="w-10 h-10 md:w-12 md:h-12 object-contain" loading="lazy" onerror="console.error('Logo failed to load:', this.src); this.style.background='#C8102E'; this.alt='Petrovi Logo';">
+      <div class="leading-tight"><span class="font-bold text-petrovi-dark text-sm md:text-base tracking-wide">PETROVI</span> <span class="block text-[9px] md:text-[10px] text-petrovi-gray tracking-widest">CORPORACIÓN C.A.</span>
+      </div></a><!-- Desktop Nav -->
+     <nav class="hidden md:flex items-center gap-8"><a href="#inicio" class="nav-link text-sm font-semibold text-petrovi-dark hover:text-petrovi-red" data-i18n="nav_inicio">Inicio</a> <a href="#nosotros" class="nav-link text-sm font-semibold text-petrovi-dark hover:text-petrovi-red" data-i18n="nav_nosotros">Nosotros</a> <a href="#servicios" class="nav-link text-sm font-semibold text-petrovi-dark hover:text-petrovi-red" data-i18n="nav_servicios">Servicios</a> <a href="#sectores" class="nav-link text-sm font-semibold text-petrovi-dark hover:text-petrovi-red" data-i18n="nav_sectores">Sectores</a> <a href="#galeria" class="nav-link text-sm font-semibold text-petrovi-dark hover:text-petrovi-red" data-i18n="nav_gallery">Galería</a> <a href="#compromiso" class="nav-link text-sm font-semibold text-petrovi-dark hover:text-petrovi-red" data-i18n="nav_compliance">Cumplimiento</a> <a href="#contacto" class="nav-link text-sm font-semibold text-petrovi-dark hover:text-petrovi-red" data-i18n="nav_contacto">Contacto</a>
      </nav><!-- Lang + Mobile -->
-     <div class="flex items-center gap-3">
-      <button id="langToggle" class="flex items-center gap-1 px-3 py-1.5 border border-gray-200 rounded-full text-xs font-semibold text-petrovi-gray hover:border-petrovi-red hover:text-petrovi-red transition-colors"> <i data-lucide="globe" style="width:14px;height:14px;"></i> <span id="langLabel">ES</span> </button> <button id="mobileMenuBtn" class="md:hidden p-2 text-petrovi-dark"> <i data-lucide="menu" style="width:24px;height:24px;"></i> </button>
+     <div class="flex items-center gap-3"><button id="langToggle" class="flex items-center gap-1 px-3 py-1.5 border border-gray-200 rounded-full text-xs font-semibold text-petrovi-gray hover:border-petrovi-red hover:text-petrovi-red transition-colors"> <i data-lucide="globe" style="width:14px;height:14px;"></i> <span id="langLabel">ES</span> </button> <button id="mobileMenuBtn" class="md:hidden p-2 text-petrovi-dark"> <i data-lucide="menu" style="width:24px;height:24px;"></i> </button>
      </div>
     </div><!-- Mobile Nav -->
     <div id="mobileMenu" class="hidden md:hidden bg-white border-t border-gray-100 mobile-menu">
-     <div class="px-6 py-4 flex flex-col gap-4">
-      <a href="#inicio" class="text-sm font-semibold text-petrovi-dark" data-i18n="nav_inicio" onclick="closeMobile()">Inicio</a> <a href="#nosotros" class="text-sm font-semibold text-petrovi-dark" data-i18n="nav_nosotros" onclick="closeMobile()">Nosotros</a> <a href="#servicios" class="text-sm font-semibold text-petrovi-dark" data-i18n="nav_servicios" onclick="closeMobile()">Servicios</a> <a href="#sectores" class="text-sm font-semibold text-petrovi-dark" data-i18n="nav_sectores" onclick="closeMobile()">Sectores</a> <a href="#compromiso" class="text-sm font-semibold text-petrovi-dark" data-i18n="nav_compliance" onclick="closeMobile()">Cumplimiento</a> <a href="#contacto" class="text-sm font-semibold text-petrovi-dark" data-i18n="nav_contacto" onclick="closeMobile()">Contacto</a>
+     <div class="px-6 py-4 flex flex-col gap-4"><a href="#inicio" class="text-sm font-semibold text-petrovi-dark" data-i18n="nav_inicio" onclick="closeMobile()">Inicio</a> <a href="#nosotros" class="text-sm font-semibold text-petrovi-dark" data-i18n="nav_nosotros" onclick="closeMobile()">Nosotros</a> <a href="#servicios" class="text-sm font-semibold text-petrovi-dark" data-i18n="nav_servicios" onclick="closeMobile()">Servicios</a> <a href="#sectores" class="text-sm font-semibold text-petrovi-dark" data-i18n="nav_sectores" onclick="closeMobile()">Sectores</a> <a href="#galeria" class="text-sm font-semibold text-petrovi-dark" data-i18n="nav_gallery" onclick="closeMobile()">Galería</a> <a href="#compromiso" class="text-sm font-semibold text-petrovi-dark" data-i18n="nav_compliance" onclick="closeMobile()">Cumplimiento</a> <a href="#contacto" class="text-sm font-semibold text-petrovi-dark" data-i18n="nav_contacto" onclick="closeMobile()">Contacto</a>
      </div>
     </div>
    </header><!-- HERO --> <!-- HERO -->
-   <section id="inicio" class="hero-bg relative w-full flex items-center" style="min-height:600px; padding-top:80px; padding-bottom:60px;">
-    <!-- Floating Logo -->
-    <div class="absolute top-1/2 right-12 transform -translate-y-1/2 opacity-100 pointer-events-none hidden lg:block">
-     <img src="https://imgur.com/JXCNyIh.png" alt="Petrovi Logo" class="floating-logo w-72 h-72 object-contain" loading="lazy" style="filter: drop-shadow(0 12px 40px rgba(200,16,46,0.3)) drop-shadow(0 0 80px rgba(255,184,28,0.4));">
+   <section id="inicio" class="hero-bg relative w-full flex items-center" style="min-height:600px; padding-top:80px; padding-bottom:60px;"><!-- Floating Logo -->
+    <div class="absolute top-1/2 right-12 transform -translate-y-1/2 opacity-100 pointer-events-none hidden lg:block"><img src="https://imgur.com/JXCNyIh.png" alt="Petrovi Logo" class="floating-logo w-72 h-72 object-contain" loading="lazy" style="filter: drop-shadow(0 12px 40px rgba(200,16,46,0.3)) drop-shadow(0 0 80px rgba(255,184,28,0.4));">
     </div><!-- Decorative elements -->
     <div class="absolute top-0 right-0 w-1/2 h-full opacity-10">
-     <svg viewbox="0 0 400 400" class="w-full h-full"><circle cx="300" cy="200" r="180" stroke="#FFB81C" stroke-width="1" fill="none" /><circle cx="300" cy="200" r="120" stroke="#FFB81C" stroke-width="0.5" fill="none" /><line x1="0" y1="350" x2="400" y2="100" stroke="#C8102E" stroke-width="0.5" opacity="0.5" />
+     <svg viewbox="0 0 400 400" class="w-full h-full">
+      <circle cx="300" cy="200" r="180" stroke="#FFB81C" stroke-width="1" fill="none" /><circle cx="300" cy="200" r="120" stroke="#FFB81C" stroke-width="0.5" fill="none" /><line x1="0" y1="350" x2="400" y2="100" stroke="#C8102E" stroke-width="0.5" opacity="0.5" />
      </svg>
     </div>
     <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
@@ -84,8 +80,8 @@ input:focus, textarea:focus { outline: none; border-color: #C8102E; box-shadow: 
       <div class="flex items-center gap-3 mb-6">
        <div class="yellow-line"></div><span class="text-petrovi-red text-xs font-bold tracking-[0.3em] uppercase" data-i18n="hero_tag">Ingeniería · Procura · Construcción · Minería</span>
       </div>
-      <h1 id="heroTitle" class="text-4xl sm:text-5xl lg:text-6xl font-black text-petrovi-dark leading-[1.1] mb-6">Innovación y Construcción Industrial de Gran Alcance</h1>
-      <p id="heroSubtitle" class="text-base sm:text-lg text-petrovi-dark font-light leading-relaxed mb-10 max-w-2xl">Soluciones integrales en ingeniería, mantenimiento y desarrollo minero bajo los más altos estándares de seguridad y precisión técnica.</p><a href="#servicios" class="btn-petrovi inline-flex items-center gap-2 px-8 py-4 rounded-lg font-bold text-sm tracking-wide"> <span data-i18n="hero_btn">Ver Nuestros Servicios</span> <i data-lucide="arrow-right" style="width:18px;height:18px;"></i> </a>
+      <h1 id="heroTitle" class="text-4xl sm:text-5xl lg:text-6xl font-black text-petrovi-dark leading-[1.1] mb-6" data-i18n="hero_title">Innovación y Construcción Industrial de Gran Alcance</h1>
+      <p id="heroSubtitle" class="text-base sm:text-lg text-petrovi-dark font-light leading-relaxed mb-10 max-w-2xl" data-i18n="hero_subtitle">Soluciones integrales en ingeniería, mantenimiento y desarrollo minero bajo los más altos estándares de seguridad y precisión técnica.</p><a href="#servicios" class="btn-petrovi inline-flex items-center gap-2 px-8 py-4 rounded-lg font-bold text-sm tracking-wide"> <span data-i18n="hero_btn">Ver Nuestros Servicios</span> <i data-lucide="arrow-right" style="width:18px;height:18px;"></i> </a>
      </div>
     </div><!-- Bottom accent line -->
     <div class="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-petrovi-red via-petrovi-yellow to-transparent"></div>
@@ -96,33 +92,30 @@ input:focus, textarea:focus { outline: none; border-color: #C8102E; box-shadow: 
       <div class="fade-up space-y-8">
        <div>
         <div class="flex items-center gap-3 mb-4">
-         <div class="yellow-line"></div><span class="text-petrovi-gray text-xs font-bold tracking-[0.25em] uppercase">Nuestra Esencia</span>
+         <div class="yellow-line"></div><span class="text-petrovi-gray text-xs font-bold tracking-[0.25em] uppercase" data-i18n="about_tag">Nuestra Esencia</span>
         </div>
-        <h2 class="text-3xl sm:text-4xl font-black text-petrovi-dark mb-6 leading-tight">Nosotros</h2>
-        <p class="text-petrovi-gray font-light leading-relaxed text-sm">Empresa venezolana líder en servicios de ingeniería, mantenimiento industrial y suministro de insumos. Nos especializamos en garantizar la continuidad operativa de los sectores petrolero, minero, urbano, civil y agrícola mediante soluciones técnicas de alta precisión y un modelo de gestión eficiente.</p>
+        <h2 class="text-3xl sm:text-4xl font-black text-petrovi-dark mb-6 leading-tight" data-i18n="about_title">Nosotros</h2>
+        <p class="text-petrovi-gray font-light leading-relaxed text-sm" data-i18n="about_text">Empresa venezolana líder en servicios de ingeniería, mantenimiento industrial y suministro de insumos. Nos especializamos en garantizar la continuidad operativa de los sectores petrolero, minero, urbano, civil y agrícola mediante soluciones técnicas de alta precisión y un modelo de gestión eficiente.</p>
        </div>
        <div class="bg-petrovi-red/5 border-l-4 border-petrovi-red p-6 rounded-r-lg">
-        <h3 class="text-lg font-bold text-petrovi-dark mb-3 flex items-center gap-2"><i data-lucide="target" style="width:20px;height:20px;color:#C8102E;"></i> Misión</h3>
-        <p class="text-petrovi-gray font-light leading-relaxed text-sm">Proveer servicios especializados de ingeniería, mantenimiento, construcción y manejo IPCM con los más altos estándares de seguridad y calidad, garantizando la continuidad operativa de nuestros clientes y contribuyendo al desarrollo energético nacional.</p>
+        <h3 class="text-lg font-bold text-petrovi-dark mb-3 flex items-center gap-2" data-i18n="about_mission_title"><i data-lucide="target" style="width:20px;height:20px;color:#C8102E;"></i> Misión</h3>
+        <p class="text-petrovi-gray font-light leading-relaxed text-sm" data-i18n="about_mission">Proveer servicios especializados de ingeniería, mantenimiento, construcción y manejo IPCM con los más altos estándares de seguridad y calidad, garantizando la continuidad operativa de nuestros clientes y contribuyendo al desarrollo energético nacional.</p>
        </div>
        <div class="bg-petrovi-yellow/5 border-l-4 border-petrovi-yellow p-6 rounded-r-lg">
-        <h3 class="text-lg font-bold text-petrovi-dark mb-3 flex items-center gap-2"><i data-lucide="eye" style="width:20px;height:20px;color:#FFB81C;"></i> Visión</h3>
-        <p class="text-petrovi-gray font-light leading-relaxed text-sm">Consolidarnos como el aliado estratégico líder en el sector industrial, minero y petrolero, siendo reconocidos por nuestra capacidad de respuesta, innovación tecnológica y compromiso con la sostenibilidad ambiental.</p>
+        <h3 class="text-lg font-bold text-petrovi-dark mb-3 flex items-center gap-2" data-i18n="about_vision_title"><i data-lucide="eye" style="width:20px;height:20px;color:#FFB81C;"></i> Visión</h3>
+        <p class="text-petrovi-gray font-light leading-relaxed text-sm" data-i18n="about_vision">Consolidarnos como el aliado estratégico líder en el sector industrial, minero y petrolero, siendo reconocidos por nuestra capacidad de respuesta, innovación tecnológica y compromiso con la sostenibilidad ambiental.</p>
        </div>
       </div>
      </div><!-- Stats Row -->
      <div class="grid sm:grid-cols-3 gap-6 mt-16 pt-12 border-t border-gray-200">
-      <div class="text-center fade-up">
-       <span class="text-4xl font-black text-petrovi-red">+7</span>
-       <p class="text-sm text-petrovi-gray font-light mt-2">Años de Experiencia</p>
+      <div class="text-center fade-up"><span class="text-4xl font-black text-petrovi-red" data-i18n="stat_years_value">+7</span>
+       <p class="text-sm text-petrovi-gray font-light mt-2" data-i18n="stat_years">Años de Experiencia</p>
       </div>
-      <div class="text-center fade-up">
-       <span class="text-4xl font-black text-petrovi-dark">100%</span>
-       <p class="text-sm text-petrovi-gray font-light mt-2">Compromiso Operativo</p>
+      <div class="text-center fade-up"><span class="text-4xl font-black text-petrovi-dark" data-i18n="stat_commitment_value">100%</span>
+       <p class="text-sm text-petrovi-gray font-light mt-2" data-i18n="stat_commitment">Compromiso Operativo</p>
       </div>
-      <div class="text-center fade-up">
-       <span class="text-4xl font-black text-petrovi-yellow">5+</span>
-       <p class="text-sm text-petrovi-gray font-light mt-2">Sectores Estratégicos</p>
+      <div class="text-center fade-up"><span class="text-4xl font-black text-petrovi-yellow" data-i18n="stat_sectors_value">5+</span>
+       <p class="text-sm text-petrovi-gray font-light mt-2" data-i18n="stat_sectors">Sectores Estratégicos</p>
       </div>
      </div>
     </div>
@@ -136,271 +129,212 @@ input:focus, textarea:focus { outline: none; border-color: #C8102E; box-shadow: 
       </div>
       <h2 class="text-3xl sm:text-4xl font-black text-petrovi-dark" data-i18n="services_title">Nuestros Servicios</h2>
      </div>
-     <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
-      <!-- Card 1 -->
-      <div class="service-card bg-white rounded-2xl p-6 border border-gray-100 fade-up">
-       <div class="w-12 h-12 bg-petrovi-red/10 rounded-xl flex items-center justify-center mb-5">
-        <i data-lucide="hard-hat" style="width:24px;height:24px;color:#C8102E;"></i>
+     <div class="service-card bg-white rounded-2xl p-6 border border-gray-100 fade-up">
+      <div class="w-12 h-12 bg-petrovi-red/10 rounded-xl flex items-center justify-center mb-5"><i data-lucide="hard-hat" style="width:24px;height:24px;color:#C8102E;"></i>
+      </div>
+      <h3 class="font-bold text-petrovi-dark text-base mb-3" data-i18n="srv1_title">Construcción e Inspección de Obras</h3>
+      <p class="text-sm text-petrovi-gray font-light leading-relaxed" data-i18n="srv1_desc">Ejecución de obras civiles y supervisión técnica rigurosa, asegurando el cumplimiento de normativas y altos estándares de calidad.</p>
+     </div><!-- Card 2 -->
+     <div class="service-card bg-white rounded-2xl p-6 border border-gray-100 fade-up">
+      <div class="w-12 h-12 bg-petrovi-red/10 rounded-xl flex items-center justify-center mb-5"><i data-lucide="wrench" style="width:24px;height:24px;color:#C8102E;"></i>
+      </div>
+      <h3 class="font-bold text-petrovi-dark text-base mb-3" data-i18n="srv2_title">Metalmecánica y Mantenimiento</h3>
+      <p class="text-sm text-petrovi-gray font-light leading-relaxed" data-i18n="srv2_desc">Fabricación de estructuras, soldadura especializada y mantenimiento preventivo para garantizar la continuidad operativa.</p>
+     </div><!-- Card 3 -->
+     <div class="service-card bg-white rounded-2xl p-6 border border-gray-100 fade-up">
+      <div class="w-12 h-12 bg-petrovi-yellow/15 rounded-xl flex items-center justify-center mb-5"><i data-lucide="mountain" style="width:24px;height:24px;color:#FFB81C;"></i>
+      </div>
+      <h3 class="font-bold text-petrovi-dark text-base mb-3" data-i18n="srv3_title">Ingeniería y Desarrollo Minero</h3>
+      <p class="text-sm text-petrovi-gray font-light leading-relaxed" data-i18n="srv3_desc">Gestión integral de proyectos de exploración y extracción, incluyendo levantamientos técnicos y certificación de reservas.</p>
+     </div><!-- Card 4 -->
+     <div class="service-card bg-white rounded-2xl p-6 border border-gray-100 fade-up">
+      <div class="w-12 h-12 bg-petrovi-yellow/15 rounded-xl flex items-center justify-center mb-5"><i data-lucide="package" style="width:24px;height:24px;color:#FFB81C;"></i>
+      </div>
+      <h3 class="font-bold text-petrovi-dark text-base mb-3" data-i18n="srv4_title">Suministros e Insumos</h3>
+      <p class="text-sm text-petrovi-gray font-light leading-relaxed" data-i18n="srv4_desc">Provisión inmediata de insumos petroleros, consumibles químicos y maquinaria pesada para responder a exigencias críticas.</p>
+     </div><!-- Card 5 -->
+     <div class="service-card bg-white rounded-2xl p-6 border border-gray-100 fade-up">
+      <div class="w-12 h-12 bg-petrovi-red/10 rounded-xl flex items-center justify-center mb-5"><i data-lucide="shield-check" style="width:24px;height:24px;color:#C8102E;"></i>
+      </div>
+      <h3 class="font-bold text-petrovi-dark text-base mb-3" data-i18n="srv5_title">Equipo Humano Especializado</h3>
+      <p class="text-sm text-petrovi-gray font-light leading-relaxed" data-i18n="srv5_desc">Personal de ingeniería y técnicos certificados con amplia trayectoria, capacitados en protocolos SHA.</p>
+     </div>
+    </div>
+   </section><!-- SECTORES -->
+   <section id="sectores" class="w-full py-20 lg:py-28 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+     <div class="text-center mb-14 fade-up">
+      <div class="flex items-center justify-center gap-3 mb-4">
+       <div class="yellow-line"></div><span class="text-petrovi-gray text-xs font-bold tracking-[0.25em] uppercase" data-i18n="sectors_tag">Especialidades</span>
+       <div class="yellow-line"></div>
+      </div>
+      <h2 class="text-3xl sm:text-4xl font-black text-petrovi-dark" data-i18n="sectors_title">Sectores de Especialidad</h2>
+     </div>
+     <div class="grid md:grid-cols-3 gap-8">
+      <div class="sector-icon text-center fade-up">
+       <div class="w-20 h-20 mx-auto bg-petrovi-dark rounded-2xl flex items-center justify-center mb-5"><i data-lucide="flame" style="width:36px;height:36px;color:#FFB81C;"></i>
        </div>
-       <h3 class="font-bold text-petrovi-dark text-base mb-3">Construcción e Inspección de Obras</h3>
-       <p class="text-sm text-petrovi-gray font-light leading-relaxed">Ejecución de obras civiles y supervisión técnica rigurosa, asegurando el cumplimiento de normativas y altos estándares de calidad en cada proyecto.</p>
-      </div><!-- Card 2 -->
-      <div class="service-card bg-white rounded-2xl p-6 border border-gray-100 fade-up">
-       <div class="w-12 h-12 bg-petrovi-red/10 rounded-xl flex items-center justify-center mb-5">
-        <i data-lucide="wrench" style="width:24px;height:24px;color:#C8102E;"></i>
+       <h3 class="font-bold text-petrovi-dark text-lg mb-2" data-i18n="sec1_title">Energía y Petróleo</h3>
+       <p class="text-sm text-petrovi-gray font-light" data-i18n="sec1_desc">Soporte técnico a la cadena de valor de hidrocarburos.</p>
+      </div>
+      <div class="sector-icon text-center fade-up">
+       <div class="w-20 h-20 mx-auto bg-petrovi-red rounded-2xl flex items-center justify-center mb-5"><i data-lucide="gem" style="width:36px;height:36px;color:#fff;"></i>
        </div>
-       <h3 class="font-bold text-petrovi-dark text-base mb-3">Metalmecánica y Mantenimiento</h3>
-       <p class="text-sm text-petrovi-gray font-light leading-relaxed">Fabricación de estructuras, soldadura especializada y mantenimiento preventivo para garantizar la continuidad operativa de plantas petroleras e industriales.</p>
-      </div><!-- Card 3 -->
-      <div class="service-card bg-white rounded-2xl p-6 border border-gray-100 fade-up">
-       <div class="w-12 h-12 bg-petrovi-yellow/15 rounded-xl flex items-center justify-center mb-5">
-        <i data-lucide="mountain" style="width:24px;height:24px;color:#FFB81C;"></i>
+       <h3 class="font-bold text-petrovi-dark text-lg mb-2" data-i18n="sec2_title">Minería Estratégica</h3>
+       <p class="text-sm text-petrovi-gray font-light" data-i18n="sec2_desc">Desarrollo de infraestructura y logística para el sector minero.</p>
+      </div>
+      <div class="sector-icon text-center fade-up">
+       <div class="w-20 h-20 mx-auto bg-gray-100 rounded-2xl flex items-center justify-center mb-5"><i data-lucide="building-2" style="width:36px;height:36px;color:#58595B;"></i>
        </div>
-       <h3 class="font-bold text-petrovi-dark text-base mb-3">Ingeniería y Desarrollo Minero</h3>
-       <p class="text-sm text-petrovi-gray font-light leading-relaxed">Gestión integral de proyectos de exploración y extracción, incluyendo levantamientos técnicos y certificación de reservas, garantizando una operación eficiente bajo altos estándares de seguridad industrial.</p>
-      </div><!-- Card 4 -->
-      <div class="service-card bg-white rounded-2xl p-6 border border-gray-100 fade-up">
-       <div class="w-12 h-12 bg-petrovi-yellow/15 rounded-xl flex items-center justify-center mb-5">
-        <i data-lucide="package" style="width:24px;height:24px;color:#FFB81C;"></i>
-       </div>
-       <h3 class="font-bold text-petrovi-dark text-base mb-3">Suministros e Insumos</h3>
-       <p class="text-sm text-petrovi-gray font-light leading-relaxed">Provisión inmediata de insumos petroleros, consumibles químicos y maquinaria pesada para responder a las exigencias críticas de la industria nacional.</p>
-      </div><!-- Card 5 -->
-      <div class="service-card bg-white rounded-2xl p-6 border border-gray-100 fade-up">
-       <div class="w-12 h-12 bg-petrovi-red/10 rounded-xl flex items-center justify-center mb-5">
-        <i data-lucide="shield-check" style="width:24px;height:24px;color:#C8102E;"></i>
-       </div>
-       <h3 class="font-bold text-petrovi-dark text-base mb-3">Equipo Humano Especializado</h3>
-       <p class="text-sm text-petrovi-gray font-light leading-relaxed">Personal de ingeniería y técnicos certificados con amplia trayectoria, capacitados en protocolos SHA para operar con precisión en entornos complejos.</p>
+       <h3 class="font-bold text-petrovi-dark text-lg mb-2" data-i18n="sec3_title">Infraestructura Civil</h3>
+       <p class="text-sm text-petrovi-gray font-light" data-i18n="sec3_desc">Construcción urbana y vialidad industrial.</p>
       </div>
      </div>
-    </div><!-- SECTORES -->
-    <section id="sectores" class="w-full py-20 lg:py-28 bg-white">
-     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="text-center mb-14 fade-up">
-       <div class="flex items-center justify-center gap-3 mb-4">
-        <div class="yellow-line"></div><span class="text-petrovi-gray text-xs font-bold tracking-[0.25em] uppercase" data-i18n="sectors_tag">Especialidades</span>
-        <div class="yellow-line"></div>
-       </div>
-       <h2 class="text-3xl sm:text-4xl font-black text-petrovi-dark" data-i18n="sectors_title">Sectores de Especialidad</h2>
+    </div>
+   </section><!-- GALERÍA -->
+   <section id="galeria" class="w-full py-20 lg:py-28 bg-gray-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+     <div class="text-center mb-14 fade-up">
+      <div class="flex items-center justify-center gap-3 mb-4">
+       <div class="yellow-line"></div><span class="text-petrovi-gray text-xs font-bold tracking-[0.25em] uppercase" data-i18n="gallery_tag">Nuestro Trabajo</span>
+       <div class="yellow-line"></div>
       </div>
-      <div class="grid md:grid-cols-3 gap-8">
-       <div class="sector-icon text-center fade-up">
-        <div class="w-20 h-20 mx-auto bg-petrovi-dark rounded-2xl flex items-center justify-center mb-5">
-         <i data-lucide="flame" style="width:36px;height:36px;color:#FFB81C;"></i>
-        </div>
-        <h3 class="font-bold text-petrovi-dark text-lg mb-2" data-i18n="sec1_title">Energía y Petróleo</h3>
-        <p class="text-sm text-petrovi-gray font-light" data-i18n="sec1_desc">Soporte técnico a la cadena de valor de hidrocarburos.</p>
+      <h2 class="text-3xl sm:text-4xl font-black text-petrovi-dark" data-i18n="gallery_title">Galería de Proyectos</h2>
+     </div>
+     <div id="galleryGrid" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6"><!-- Gallery items will be loaded here -->
+     </div>
+    </div>
+   </section><!-- COMPROMISO SHA -->
+   <section id="compromiso" class="w-full py-20 lg:py-28 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+     <div class="text-center mb-14 fade-up">
+      <div class="flex items-center justify-center gap-3 mb-4">
+       <div class="yellow-line"></div><span class="text-petrovi-gray text-xs font-bold tracking-[0.25em] uppercase" data-i18n="compliance_tag">Nuestro Compromiso</span>
+       <div class="yellow-line"></div>
+      </div>
+      <h2 class="text-3xl sm:text-4xl font-black text-petrovi-dark mb-2" data-i18n="compliance_title">Compromiso SHA</h2>
+      <p class="text-petrovi-gray font-light max-w-2xl mx-auto" data-i18n="compliance_subtitle">Seguridad y Salud Laboral, Ambiente, Excelencia Operativa</p>
+     </div>
+     <div class="grid md:grid-cols-3 gap-8">
+      <!-- Pilar 1: Seguridad y Salud Laboral -->
+      <div class="bg-gradient-to-br from-petrovi-red/5 to-transparent rounded-2xl p-8 border border-gray-100 fade-up">
+       <div class="w-14 h-14 bg-petrovi-red rounded-xl flex items-center justify-center mb-5"><i data-lucide="hard-hat" style="width:28px;height:28px;color:#fff;"></i>
        </div>
-       <div class="sector-icon text-center fade-up">
-        <div class="w-20 h-20 mx-auto bg-petrovi-red rounded-2xl flex items-center justify-center mb-5">
-         <i data-lucide="gem" style="width:36px;height:36px;color:#fff;"></i>
-        </div>
-        <h3 class="font-bold text-petrovi-dark text-lg mb-2" data-i18n="sec2_title">Minería Estratégica</h3>
-        <p class="text-sm text-petrovi-gray font-light" data-i18n="sec2_desc">Desarrollo de infraestructura y logística para el sector minero.</p>
+       <h3 class="font-bold text-petrovi-dark text-lg mb-4" data-i18n="compliance_safety_title">Seguridad y Salud Laboral</h3>
+       <p class="text-sm text-petrovi-gray font-light leading-relaxed mb-4" data-i18n="compliance_safety_desc">Operamos bajo una cultura de prevención de riesgos, garantizando el uso estricto de EPP y el cumplimiento de la LOPCYMAT para lograr nuestra meta de "Cero Incidentes".</p>
+       <ul class="space-y-2">
+        <li class="flex items-start gap-2 text-xs text-petrovi-gray font-light"><span class="text-petrovi-red font-bold">•</span> <span data-i18n="compliance_safety_item1">Personal capacitado en protocolos de emergencia</span></li>
+        <li class="flex items-start gap-2 text-xs text-petrovi-gray font-light"><span class="text-petrovi-red font-bold">•</span> <span data-i18n="compliance_safety_item2">Cumplimiento total de normativas LOPCYMAT</span></li>
+        <li class="flex items-start gap-2 text-xs text-petrovi-gray font-light"><span class="text-petrovi-red font-bold">•</span> <span data-i18n="compliance_safety_item3">Meta corporativa: "Cero Incidentes"</span></li>
+       </ul>
+      </div><!-- Pilar 2: Protección Ambiental -->
+      <div class="bg-gradient-to-br from-petrovi-yellow/5 to-transparent rounded-2xl p-8 border border-gray-100 fade-up">
+       <div class="w-14 h-14 bg-petrovi-yellow rounded-xl flex items-center justify-center mb-5"><i data-lucide="leaf" style="width:28px;height:28px;color:#1a1a1a;"></i>
        </div>
-       <div class="sector-icon text-center fade-up">
-        <div class="w-20 h-20 mx-auto bg-gray-100 rounded-2xl flex items-center justify-center mb-5">
-         <i data-lucide="building-2" style="width:36px;height:36px;color:#58595B;"></i>
-        </div>
-        <h3 class="font-bold text-petrovi-dark text-lg mb-2" data-i18n="sec3_title">Infraestructura Civil</h3>
-        <p class="text-sm text-petrovi-gray font-light" data-i18n="sec3_desc">Construcción urbana y vialidad industrial.</p>
+       <h3 class="font-bold text-petrovi-dark text-lg mb-4" data-i18n="compliance_env_title">Protección Ambiental</h3>
+       <p class="text-sm text-petrovi-gray font-light leading-relaxed mb-4" data-i18n="compliance_env_desc">Ejecutamos cada proyecto con responsabilidad ecológica, asegurando el manejo adecuado de desechos y el cumplimiento de las normativas de protección del entorno.</p>
+       <ul class="space-y-2">
+        <li class="flex items-start gap-2 text-xs text-petrovi-gray font-light"><span class="text-petrovi-yellow font-bold">•</span> <span data-i18n="compliance_env_item1">Manejo responsable de residuos</span></li>
+        <li class="flex items-start gap-2 text-xs text-petrovi-gray font-light"><span class="text-petrovi-yellow font-bold">•</span> <span data-i18n="compliance_env_item2">Cumplimiento de normativas ambientales</span></li>
+        <li class="flex items-start gap-2 text-xs text-petrovi-gray font-light"><span class="text-petrovi-yellow font-bold">•</span> <span data-i18n="compliance_env_item3">Desarrollo sostenible en operaciones</span></li>
+       </ul>
+      </div><!-- Pilar 3: Excelencia Operativa -->
+      <div class="bg-gradient-to-br from-gray-400/5 to-transparent rounded-2xl p-8 border border-gray-100 fade-up">
+       <div class="w-14 h-14 bg-petrovi-dark rounded-xl flex items-center justify-center mb-5"><i data-lucide="zap" style="width:28px;height:28px;color:#FFB81C;"></i>
        </div>
+       <h3 class="font-bold text-petrovi-dark text-lg mb-4" data-i18n="compliance_excellence_title">Excelencia Operativa</h3>
+       <p class="text-sm text-petrovi-gray font-light leading-relaxed mb-4" data-i18n="compliance_excellence_desc">Personal capacitado en protocolos de seguridad industrial, garantizando operaciones confiables en las instalaciones más exigentes del país.</p>
+       <ul class="space-y-2">
+        <li class="flex items-start gap-2 text-xs text-petrovi-gray font-light"><span class="text-petrovi-dark font-bold">•</span> <span data-i18n="compliance_excellence_item1">Capacitación continua del personal</span></li>
+        <li class="flex items-start gap-2 text-xs text-petrovi-gray font-light"><span class="text-petrovi-dark font-bold">•</span> <span data-i18n="compliance_excellence_item2">Operaciones de máxima confiabilidad</span></li>
+        <li class="flex items-start gap-2 text-xs text-petrovi-gray font-light"><span class="text-petrovi-dark font-bold">•</span> <span data-i18n="compliance_excellence_item3">Instalaciones certificadas y seguras</span></li>
+       </ul>
       </div>
      </div>
-    </section><!-- COMPROMISO SHA -->
-    <section class="w-full py-20 lg:py-28 bg-white">
-     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="text-center mb-14 fade-up">
-       <div class="flex items-center justify-center gap-3 mb-4">
-        <div class="yellow-line"></div><span class="text-petrovi-gray text-xs font-bold tracking-[0.25em] uppercase">Nuestro Compromiso</span>
-        <div class="yellow-line"></div>
-       </div>
-       <h2 class="text-3xl sm:text-4xl font-black text-petrovi-dark mb-2">Compromiso SHA</h2>
-       <p class="text-petrovi-gray font-light max-w-2xl mx-auto">Seguridad y Salud Laboral, Ambiente, Excelencia Operativa</p>
+    </div>
+   </section><!-- CONTACTO -->
+   <section id="contacto" class="w-full py-20 lg:py-28 bg-gray-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+     <div class="text-center mb-14 fade-up">
+      <div class="flex items-center justify-center gap-3 mb-4">
+       <div class="yellow-line"></div><span class="text-petrovi-gray text-xs font-bold tracking-[0.25em] uppercase" data-i18n="contact_tag">Hablemos</span>
+       <div class="yellow-line"></div>
       </div>
-      <div class="grid md:grid-cols-3 gap-8"><!-- Pilar 1: Seguridad y Salud Laboral -->
-       <div class="bg-gradient-to-br from-petrovi-red/5 to-transparent rounded-2xl p-8 border border-gray-100 fade-up">
-        <div class="w-14 h-14 bg-petrovi-red rounded-xl flex items-center justify-center mb-5">
-         <i data-lucide="hard-hat" style="width:28px;height:28px;color:#fff;"></i>
-        </div>
-        <h3 class="font-bold text-petrovi-dark text-lg mb-4">Seguridad y Salud Laboral</h3>
-        <p class="text-sm text-petrovi-gray font-light leading-relaxed mb-4">Operamos bajo una cultura de prevención de riesgos, garantizando el uso estricto de EPP y el cumplimiento de la LOPCYMAT para lograr nuestra meta de "Cero Incidentes".</p>
-        <ul class="space-y-2">
-         <li class="flex items-start gap-2 text-xs text-petrovi-gray font-light"><span class="text-petrovi-red font-bold">•</span> <span>Personal capacitado en protocolos de emergencia</span></li>
-         <li class="flex items-start gap-2 text-xs text-petrovi-gray font-light"><span class="text-petrovi-red font-bold">•</span> <span>Cumplimiento total de normativas LOPCYMAT</span></li>
-         <li class="flex items-start gap-2 text-xs text-petrovi-gray font-light"><span class="text-petrovi-red font-bold">•</span> <span>Meta corporativa: "Cero Incidentes"</span></li>
-        </ul>
-       </div><!-- Pilar 2: Protección Ambiental -->
-       <div class="bg-gradient-to-br from-petrovi-yellow/5 to-transparent rounded-2xl p-8 border border-gray-100 fade-up">
-        <div class="w-14 h-14 bg-petrovi-yellow rounded-xl flex items-center justify-center mb-5">
-         <i data-lucide="leaf" style="width:28px;height:28px;color:#1a1a1a;"></i>
-        </div>
-        <h3 class="font-bold text-petrovi-dark text-lg mb-4">Protección Ambiental</h3>
-        <p class="text-sm text-petrovi-gray font-light leading-relaxed mb-4">Ejecutamos cada proyecto con responsabilidad ecológica, asegurando el manejo adecuado de desechos y el cumplimiento de las normativas de protección del entorno.</p>
-        <ul class="space-y-2">
-         <li class="flex items-start gap-2 text-xs text-petrovi-gray font-light"><span class="text-petrovi-yellow font-bold">•</span> <span>Manejo responsable de residuos</span></li>
-         <li class="flex items-start gap-2 text-xs text-petrovi-gray font-light"><span class="text-petrovi-yellow font-bold">•</span> <span>Cumplimiento de normativas ambientales</span></li>
-         <li class="flex items-start gap-2 text-xs text-petrovi-gray font-light"><span class="text-petrovi-yellow font-bold">•</span> <span>Desarrollo sostenible en operaciones</span></li>
-        </ul>
-       </div><!-- Pilar 3: Excelencia Operativa -->
-       <div class="bg-gradient-to-br from-gray-400/5 to-transparent rounded-2xl p-8 border border-gray-100 fade-up">
-        <div class="w-14 h-14 bg-petrovi-dark rounded-xl flex items-center justify-center mb-5">
-         <i data-lucide="zap" style="width:28px;height:28px;color:#FFB81C;"></i>
-        </div>
-        <h3 class="font-bold text-petrovi-dark text-lg mb-4">Excelencia Operativa</h3>
-        <p class="text-sm text-petrovi-gray font-light leading-relaxed mb-4">Personal capacitado en protocolos de seguridad industrial, garantizando operaciones confiables en las instalaciones más exigentes del país.</p>
-        <ul class="space-y-2">
-         <li class="flex items-start gap-2 text-xs text-petrovi-gray font-light"><span class="text-petrovi-dark font-bold">•</span> <span>Capacitación continua del personal</span></li>
-         <li class="flex items-start gap-2 text-xs text-petrovi-gray font-light"><span class="text-petrovi-dark font-bold">•</span> <span>Operaciones de máxima confiabilidad</span></li>
-         <li class="flex items-start gap-2 text-xs text-petrovi-gray font-light"><span class="text-petrovi-dark font-bold">•</span> <span>Instalaciones certificadas y seguras</span></li>
-        </ul>
-       </div>
-      </div>
+      <h2 class="text-3xl sm:text-4xl font-black text-petrovi-dark" data-i18n="contact_title">Contacto</h2>
      </div>
-    </section><!-- COMPROMISO SHA -->
-    <section id="compromiso" class="w-full py-20 lg:py-28 bg-white">
-     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="text-center mb-14 fade-up">
-       <div class="flex items-center justify-center gap-3 mb-4">
-        <div class="yellow-line"></div><span class="text-petrovi-gray text-xs font-bold tracking-[0.25em] uppercase" data-i18n="compliance_tag">Nuestro Compromiso</span>
-        <div class="yellow-line"></div>
+     <div class="grid lg:grid-cols-2 gap-12"><!-- Form -->
+      <form id="contactForm" class="fade-up space-y-5">
+       <div class="grid sm:grid-cols-2 gap-5">
+        <div><label for="c_name" class="block text-xs font-semibold text-petrovi-dark mb-1.5" data-i18n="form_name">Nombre</label> <input id="c_name" type="text" required class="w-full px-4 py-3 border border-gray-200 rounded-xl text-sm font-light bg-white transition-all">
+        </div>
+        <div><label for="c_email" class="block text-xs font-semibold text-petrovi-dark mb-1.5" data-i18n="form_email">Correo</label> <input id="c_email" type="email" required class="w-full px-4 py-3 border border-gray-200 rounded-xl text-sm font-light bg-white transition-all">
+        </div>
        </div>
-       <h2 class="text-3xl sm:text-4xl font-black text-petrovi-dark mb-2" data-i18n="compliance_title">Compromiso SHA</h2>
-       <p class="text-petrovi-gray font-light max-w-2xl mx-auto" data-i18n="compliance_subtitle">Seguridad y Salud Laboral, Ambiente, Excelencia Operativa</p>
-      </div>
-      <div class="grid md:grid-cols-3 gap-8"><!-- Pilar 1: Seguridad y Salud Laboral -->
-       <div class="bg-gradient-to-br from-petrovi-red/5 to-transparent rounded-2xl p-8 border border-gray-100 fade-up">
-        <div class="w-14 h-14 bg-petrovi-red rounded-xl flex items-center justify-center mb-5">
-         <i data-lucide="hard-hat" style="width:28px;height:28px;color:#fff;"></i>
+       <div class="grid sm:grid-cols-2 gap-5">
+        <div><label for="c_company" class="block text-xs font-semibold text-petrovi-dark mb-1.5" data-i18n="form_company">Empresa</label> <input id="c_company" type="text" class="w-full px-4 py-3 border border-gray-200 rounded-xl text-sm font-light bg-white transition-all">
         </div>
-        <h3 class="font-bold text-petrovi-dark text-lg mb-4" data-i18n="compliance_safety_title">Seguridad y Salud Laboral</h3>
-        <p class="text-sm text-petrovi-gray font-light leading-relaxed mb-4" data-i18n="compliance_safety_desc">Operamos bajo una cultura de prevención de riesgos, garantizando el uso estricto de EPP y el cumplimiento de la LOPCYMAT para lograr nuestra meta de "Cero Incidentes".</p>
-        <ul class="space-y-2">
-         <li class="flex items-start gap-2 text-xs text-petrovi-gray font-light"><span class="text-petrovi-red font-bold">•</span> <span data-i18n="compliance_safety_item1">Personal capacitado en protocolos de emergencia</span></li>
-         <li class="flex items-start gap-2 text-xs text-petrovi-gray font-light"><span class="text-petrovi-red font-bold">•</span> <span data-i18n="compliance_safety_item2">Cumplimiento total de normativas LOPCYMAT</span></li>
-         <li class="flex items-start gap-2 text-xs text-petrovi-gray font-light"><span class="text-petrovi-red font-bold">•</span> <span data-i18n="compliance_safety_item3">Meta corporativa: "Cero Incidentes"</span></li>
-        </ul>
-       </div><!-- Pilar 2: Protección Ambiental -->
-       <div class="bg-gradient-to-br from-petrovi-yellow/5 to-transparent rounded-2xl p-8 border border-gray-100 fade-up">
-        <div class="w-14 h-14 bg-petrovi-yellow rounded-xl flex items-center justify-center mb-5">
-         <i data-lucide="leaf" style="width:28px;height:28px;color:#1a1a1a;"></i>
+        <div><label for="c_subject" class="block text-xs font-semibold text-petrovi-dark mb-1.5" data-i18n="form_subject">Asunto</label> <input id="c_subject" type="text" class="w-full px-4 py-3 border border-gray-200 rounded-xl text-sm font-light bg-white transition-all">
         </div>
-        <h3 class="font-bold text-petrovi-dark text-lg mb-4" data-i18n="compliance_env_title">Protección Ambiental</h3>
-        <p class="text-sm text-petrovi-gray font-light leading-relaxed mb-4" data-i18n="compliance_env_desc">Ejecutamos cada proyecto con responsabilidad ecológica, asegurando el manejo adecuado de desechos y el cumplimiento de las normativas de protección del entorno.</p>
-        <ul class="space-y-2">
-         <li class="flex items-start gap-2 text-xs text-petrovi-gray font-light"><span class="text-petrovi-yellow font-bold">•</span> <span data-i18n="compliance_env_item1">Manejo responsable de residuos</span></li>
-         <li class="flex items-start gap-2 text-xs text-petrovi-gray font-light"><span class="text-petrovi-yellow font-bold">•</span> <span data-i18n="compliance_env_item2">Cumplimiento de normativas ambientales</span></li>
-         <li class="flex items-start gap-2 text-xs text-petrovi-gray font-light"><span class="text-petrovi-yellow font-bold">•</span> <span data-i18n="compliance_env_item3">Desarrollo sostenible en operaciones</span></li>
-        </ul>
-       </div><!-- Pilar 3: Excelencia Operativa -->
-       <div class="bg-gradient-to-br from-gray-400/5 to-transparent rounded-2xl p-8 border border-gray-100 fade-up">
-        <div class="w-14 h-14 bg-petrovi-dark rounded-xl flex items-center justify-center mb-5">
-         <i data-lucide="zap" style="width:28px;height:28px;color:#FFB81C;"></i>
-        </div>
-        <h3 class="font-bold text-petrovi-dark text-lg mb-4" data-i18n="compliance_excellence_title">Excelencia Operativa</h3>
-        <p class="text-sm text-petrovi-gray font-light leading-relaxed mb-4" data-i18n="compliance_excellence_desc">Personal capacitado en protocolos de seguridad industrial, garantizando operaciones confiables en las instalaciones más exigentes del país.</p>
-        <ul class="space-y-2">
-         <li class="flex items-start gap-2 text-xs text-petrovi-gray font-light"><span class="text-petrovi-dark font-bold">•</span> <span data-i18n="compliance_excellence_item1">Capacitación continua del personal</span></li>
-         <li class="flex items-start gap-2 text-xs text-petrovi-gray font-light"><span class="text-petrovi-dark font-bold">•</span> <span data-i18n="compliance_excellence_item2">Operaciones de máxima confiabilidad</span></li>
-         <li class="flex items-start gap-2 text-xs text-petrovi-gray font-light"><span class="text-petrovi-dark font-bold">•</span> <span data-i18n="compliance_excellence_item3">Instalaciones certificadas y seguras</span></li>
-        </ul>
        </div>
-      </div>
-     </div>
-    </section><!-- CONTACTO -->
-    <section id="contacto" class="w-full py-20 lg:py-28 bg-gray-50">
-     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="text-center mb-14 fade-up">
-       <div class="flex items-center justify-center gap-3 mb-4">
-        <div class="yellow-line"></div><span class="text-petrovi-gray text-xs font-bold tracking-[0.25em] uppercase" data-i18n="contact_tag">Hablemos</span>
-        <div class="yellow-line"></div>
-       </div>
-       <h2 class="text-3xl sm:text-4xl font-black text-petrovi-dark" data-i18n="contact_title">Contacto</h2>
-      </div>
-      <div class="grid lg:grid-cols-2 gap-12">
-       <!-- Form -->
-       <form id="contactForm" class="fade-up space-y-5">
-        <div class="grid sm:grid-cols-2 gap-5">
-         <div>
-          <label for="c_name" class="block text-xs font-semibold text-petrovi-dark mb-1.5" data-i18n="form_name">Nombre</label> <input id="c_name" type="text" required class="w-full px-4 py-3 border border-gray-200 rounded-xl text-sm font-light bg-white transition-all">
-         </div>
-         <div>
-          <label for="c_email" class="block text-xs font-semibold text-petrovi-dark mb-1.5" data-i18n="form_email">Correo</label> <input id="c_email" type="email" required class="w-full px-4 py-3 border border-gray-200 rounded-xl text-sm font-light bg-white transition-all">
-         </div>
-        </div>
-        <div class="grid sm:grid-cols-2 gap-5">
-         <div>
-          <label for="c_company" class="block text-xs font-semibold text-petrovi-dark mb-1.5" data-i18n="form_company">Empresa</label> <input id="c_company" type="text" class="w-full px-4 py-3 border border-gray-200 rounded-xl text-sm font-light bg-white transition-all">
-         </div>
-         <div>
-          <label for="c_subject" class="block text-xs font-semibold text-petrovi-dark mb-1.5" data-i18n="form_subject">Asunto</label> <input id="c_subject" type="text" class="w-full px-4 py-3 border border-gray-200 rounded-xl text-sm font-light bg-white transition-all">
-         </div>
+       <div><label for="c_message" class="block text-xs font-semibold text-petrovi-dark mb-1.5" data-i18n="form_message">Mensaje</label> <textarea id="c_message" rows="5" required class="w-full px-4 py-3 border border-gray-200 rounded-xl text-sm font-light bg-white transition-all resize-none"></textarea>
+       </div><button type="submit" id="submitBtn" class="btn-petrovi w-full py-4 rounded-xl font-bold text-sm tracking-wide flex items-center justify-center gap-2"> <span data-i18n="form_send">Enviar Mensaje</span> <i data-lucide="send" style="width:16px;height:16px;"></i> </button>
+       <div id="formToast" class="hidden"></div>
+      </form><!-- Info -->
+      <div class="fade-up space-y-8">
+       <div class="flex items-start gap-4">
+        <div class="w-11 h-11 bg-petrovi-red/10 rounded-xl flex items-center justify-center flex-shrink-0 mt-0.5"><i data-lucide="map-pin" style="width:20px;height:20px;color:#C8102E;"></i>
         </div>
         <div>
-         <label for="c_message" class="block text-xs font-semibold text-petrovi-dark mb-1.5" data-i18n="form_message">Mensaje</label> <textarea id="c_message" rows="5" required class="w-full px-4 py-3 border border-gray-200 rounded-xl text-sm font-light bg-white transition-all resize-none"></textarea>
-        </div><button type="submit" id="submitBtn" class="btn-petrovi w-full py-4 rounded-xl font-bold text-sm tracking-wide flex items-center justify-center gap-2"> <span data-i18n="form_send">Enviar Mensaje</span> <i data-lucide="send" style="width:16px;height:16px;"></i> </button>
-        <div id="formToast" class="hidden"></div>
-       </form><!-- Info -->
-       <div class="fade-up space-y-8">
-        <div class="flex items-start gap-4">
-         <div class="w-11 h-11 bg-petrovi-red/10 rounded-xl flex items-center justify-center flex-shrink-0 mt-0.5">
-          <i data-lucide="map-pin" style="width:20px;height:20px;color:#C8102E;"></i>
-         </div>
-         <div>
-          <h4 class="font-bold text-petrovi-dark text-sm mb-1" data-i18n="info_address_label">Dirección</h4>
-          <p class="text-sm text-petrovi-gray font-light leading-relaxed">Avenida Tamanaco, cruce con Calle Mara, Quinta Santa Inés, Urb. Morro III, Lechería, Anzoátegui.</p>
-         </div>
+         <h4 class="font-bold text-petrovi-dark text-sm mb-1" data-i18n="info_address_label">Dirección</h4>
+         <p class="text-sm text-petrovi-gray font-light leading-relaxed">Avenida Tamanaco, cruce con Calle Mara, Quinta Santa Inés, Urb. Morro III, Lechería, Anzoátegui.</p>
         </div>
-        <div class="flex items-start gap-4">
-         <div class="w-11 h-11 bg-petrovi-yellow/15 rounded-xl flex items-center justify-center flex-shrink-0 mt-0.5">
-          <i data-lucide="mail" style="width:20px;height:20px;color:#FFB81C;"></i>
-         </div>
-         <div>
-          <h4 class="font-bold text-petrovi-dark text-sm mb-1" data-i18n="info_email_label">Correo</h4>
-          <p id="contactEmail" class="text-sm text-petrovi-gray font-light">info@petrovica.com</p>
-         </div>
-        </div><!-- Map placeholder -->
-        <div class="bg-gray-200 rounded-2xl overflow-hidden" style="height:220px;">
-         <div class="w-full h-full flex flex-col items-center justify-center text-petrovi-gray">
-          <i data-lucide="map" style="width:40px;height:40px;opacity:0.4;"></i> <span class="text-xs font-light mt-2 opacity-60">Lechería, Anzoátegui</span>
-         </div>
+       </div>
+       <div class="flex items-start gap-4">
+        <div class="w-11 h-11 bg-petrovi-yellow/15 rounded-xl flex items-center justify-center flex-shrink-0 mt-0.5"><i data-lucide="mail" style="width:20px;height:20px;color:#FFB81C;"></i>
+        </div>
+        <div>
+         <h4 class="font-bold text-petrovi-dark text-sm mb-1" data-i18n="info_email_label">Correo</h4>
+         <p id="contactEmail" class="text-sm text-petrovi-gray font-light">info@petrovica.com</p>
+        </div>
+       </div><!-- Map placeholder -->
+       <div class="bg-gray-200 rounded-2xl overflow-hidden" style="height:220px;">
+        <div class="w-full h-full flex flex-col items-center justify-center text-petrovi-gray"><i data-lucide="map" style="width:40px;height:40px;opacity:0.4;"></i> <span class="text-xs font-light mt-2 opacity-60">Lechería, Anzoátegui</span>
         </div>
        </div>
       </div>
      </div>
-    </section><!-- FOOTER -->
-    <footer class="w-full bg-petrovi-dark py-12 border-t border-white/5">
-     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="grid md:grid-cols-3 gap-8 mb-8"><!-- Column 1: Logo & Description -->
-       <div>
-        <div class="flex items-center gap-2 mb-4">
-         <img src="https://imgur.com/JXCNyIh.png" alt="Petrovi Logo" class="w-8 h-8 object-contain" loading="lazy" onerror="console.error('Logo failed to load:', this.src); this.style.background='#C8102E';"><span class="text-white font-bold tracking-wide">PETROVI</span>
-        </div>
-        <p class="text-white/85 text-xs font-light leading-relaxed">Corporación Petrovi C.A. — Ingeniería, Procura, Construcción y Desarrollo Minero Integral.</p>
-        <p class="text-white/75 text-xs font-light mt-3"><strong>RIF:</strong> J-409559475-0</p>
-       </div><!-- Column 2: Address -->
-       <div>
-        <h4 class="text-white font-bold text-xs tracking-widest mb-3 uppercase" data-i18n="footer_address_label">Dirección</h4>
-        <p class="text-white/85 text-xs font-light leading-relaxed">Avenida Tamanaco, cruce con Calle Mara, Quinta Santa Inés, Urbanización Morro III, Lechería, Estado Anzoátegui 6016.</p>
-       </div><!-- Column 3: Links -->
-       <div>
-        <h4 class="text-white font-bold text-xs tracking-widest mb-3 uppercase" data-i18n="footer_legal_label">Legal</h4>
-        <div class="flex flex-col gap-2"><a href="#privacy" class="text-white/80 text-xs font-light hover:text-petrovi-yellow transition-colors" data-i18n="footer_privacy">Política de Privacidad</a> <a href="#terms" class="text-white/80 text-xs font-light hover:text-petrovi-yellow transition-colors" data-i18n="footer_terms">Términos de Servicio</a> <a href="#disclaimer" class="text-white/80 text-xs font-light hover:text-petrovi-yellow transition-colors" data-i18n="footer_disclaimer">Descargo de Responsabilidad</a>
-        </div>
+    </div>
+   </section><!-- FOOTER -->
+   <footer class="w-full bg-petrovi-dark py-12 border-t border-white/5 mt-0">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+     <div class="grid md:grid-cols-3 gap-8 mb-8">
+      <!-- Column 1: Logo & Description -->
+      <div>
+       <div class="flex items-center gap-2 mb-4"><img src="https://imgur.com/JXCNyIh.png" alt="Petrovi Logo" class="w-8 h-8 object-contain" loading="lazy" onerror="console.error('Logo failed to load:', this.src); this.style.background='#C8102E';"><span class="text-white font-bold tracking-wide">PETROVI</span>
        </div>
-      </div><!-- Divider -->
-      <div class="border-t border-white/10 pt-6">
-       <p class="text-white/75 text-xs font-light text-center">© 2026 <strong>Corporación Petrovi C.A.</strong> RIF: J-409559475-0 — <span data-i18n="footer_rights">Todos los derechos reservados.</span></p>
+       <p class="text-white/85 text-xs font-light leading-relaxed" data-i18n="footer_desc">Corporación Petrovi C.A. — Ingeniería, Procura, Construcción y Desarrollo Minero Integral.</p>
+       <p class="text-white/75 text-xs font-light mt-3"><strong data-i18n="footer_rif">RIF: J-409559475-0</strong></p>
+      </div><!-- Column 2: Address -->
+      <div>
+       <h4 class="text-white font-bold text-xs tracking-widest mb-3 uppercase" data-i18n="footer_address_label">Dirección</h4>
+       <p class="text-white/85 text-xs font-light leading-relaxed" data-i18n="footer_address">Avenida Tamanaco, cruce con Calle Mara, Quinta Santa Inés, Urbanización Morro III, Lechería, Estado Anzoátegui 6016.</p>
+      </div><!-- Column 3: Links -->
+      <div>
+       <h4 class="text-white font-bold text-xs tracking-widest mb-3 uppercase" data-i18n="footer_legal_label">Legal</h4>
+       <div class="flex flex-col gap-2">
+        <a href="#privacy" class="text-white/80 text-xs font-light hover:text-petrovi-yellow transition-colors" data-i18n="footer_privacy">Política de Privacidad</a> <a href="#terms" class="text-white/80 text-xs font-light hover:text-petrovi-yellow transition-colors" data-i18n="footer_terms">Términos de Servicio</a> <a href="#disclaimer" class="text-white/80 text-xs font-light hover:text-petrovi-yellow transition-colors" data-i18n="footer_disclaimer">Descargo de Responsabilidad</a>
+       </div>
       </div>
+     </div><!-- Divider -->
+     <div class="border-t border-white/10 pt-6">
+      <p class="text-white/75 text-xs font-light">© 2026 <strong>Corporación Petrovi C.A.</strong> RIF: J-409559475-0 — <span data-i18n="footer_rights">Todos los derechos reservados.</span></p>
      </div>
-    </footer>
-   </section>
+    </div>
+   </footer>
   </div><!-- LEGAL PAGES (Hidden by default) -->
   <section id="privacy" class="hidden w-full py-20 lg:py-28 bg-white">
    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-    <div class="mb-8">
-     <a href="#inicio" class="inline-flex items-center gap-2 text-petrovi-red hover:text-petrovi-dark text-sm font-semibold mb-6"> <i data-lucide="arrow-left" style="width:16px;height:16px;"></i> <span data-i18n="back">Volver</span> </a>
+    <div class="mb-8"><a href="#inicio" class="inline-flex items-center gap-2 text-petrovi-red hover:text-petrovi-dark text-sm font-semibold mb-6"> <i data-lucide="arrow-left" style="width:16px;height:16px;"></i> <span data-i18n="back">Volver</span> </a>
      <h1 class="text-4xl font-black text-petrovi-dark mb-2" data-i18n="privacy_title">Política de Privacidad</h1>
      <p class="text-sm text-petrovi-gray">Última actualización: 2026</p>
     </div>
@@ -434,8 +368,7 @@ input:focus, textarea:focus { outline: none; border-color: #C8102E; box-shadow: 
   </section><!-- TERMS -->
   <section id="terms" class="hidden w-full py-20 lg:py-28 bg-white">
    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-    <div class="mb-8">
-     <a href="#inicio" class="inline-flex items-center gap-2 text-petrovi-red hover:text-petrovi-dark text-sm font-semibold mb-6"> <i data-lucide="arrow-left" style="width:16px;height:16px;"></i> <span data-i18n="back">Volver</span> </a>
+    <div class="mb-8"><a href="#inicio" class="inline-flex items-center gap-2 text-petrovi-red hover:text-petrovi-dark text-sm font-semibold mb-6"> <i data-lucide="arrow-left" style="width:16px;height:16px;"></i> <span data-i18n="back">Volver</span> </a>
      <h1 class="text-4xl font-black text-petrovi-dark mb-2" data-i18n="terms_title">Términos de Servicio</h1>
      <p class="text-sm text-petrovi-gray">Última actualización: 2026</p>
     </div>
@@ -469,8 +402,7 @@ input:focus, textarea:focus { outline: none; border-color: #C8102E; box-shadow: 
   </section><!-- DISCLAIMER -->
   <section id="disclaimer" class="hidden w-full py-20 lg:py-28 bg-white">
    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-    <div class="mb-8">
-     <a href="#inicio" class="inline-flex items-center gap-2 text-petrovi-red hover:text-petrovi-dark text-sm font-semibold mb-6"> <i data-lucide="arrow-left" style="width:16px;height:16px;"></i> <span data-i18n="back">Volver</span> </a>
+    <div class="mb-8"><a href="#inicio" class="inline-flex items-center gap-2 text-petrovi-red hover:text-petrovi-dark text-sm font-semibold mb-6"> <i data-lucide="arrow-left" style="width:16px;height:16px;"></i> <span data-i18n="back">Volver</span> </a>
      <h1 class="text-4xl font-black text-petrovi-dark mb-2" data-i18n="disclaimer_title">Descargo de Responsabilidad</h1>
      <p class="text-sm text-petrovi-gray">Última actualización: 2026</p>
     </div>
@@ -502,7 +434,8 @@ input:focus, textarea:focus { outline: none; border-color: #C8102E; box-shadow: 
     </div>
    </div>
   </section><!-- WhatsApp Floating Menu -->
-  <div id="whatsappContainer" class="fixed bottom-6 right-6 z-40 flex flex-col items-end gap-3"><!-- Menu Items (hidden by default) -->
+  <div id="whatsappContainer" class="fixed bottom-6 right-6 z-40 flex flex-col items-end gap-3">
+   <!-- Menu Items (hidden by default) -->
    <div id="whatsappMenu" class="hidden flex flex-col gap-2 bg-white rounded-2xl shadow-lg border border-gray-100 overflow-hidden" style="min-width:280px;">
     <div class="px-5 py-4 bg-gradient-to-r from-green-50 to-emerald-50 border-b border-gray-100">
      <h3 class="font-bold text-sm text-green-900" data-i18n="whatsapp_title">Contáctanos</h3>
@@ -544,25 +477,67 @@ document.addEventListener('click', (e) => {
     document.getElementById('whatsappMenu').classList.add('hidden');
   }
 });
+  </script>
+  <script>
+// Gallery loader
+function loadGallery() {
+  const galleryConfig = [
+    {"id":"img1","url":"https://imgur.com/uDb58WD.png","captionKey":"gallery_img1"},
+    {"id":"img2","url":"https://imgur.com/XyYuzrC.png","captionKey":"gallery_img2"},
+    {"id":"img3","url":"https://imgur.com/I4dUV45.png","captionKey":"gallery_img3"},
+    {"id":"img4","url":"https://imgur.com/iagGUQf.png","captionKey":"gallery_img4"},
+    {"id":"img5","url":"https://imgur.com/0A725Ip.png","captionKey":"gallery_img5"},
+    {"id":"img6","url":"https://imgur.com/rgej7Dk.png","captionKey":"gallery_img6"},
+    {"id":"img7","url":"https://imgur.com/ymqcpUi.png","captionKey":"gallery_img7"},
+    {"id":"img8","url":"https://imgur.com/GdU2osm.png","captionKey":"gallery_img8"},
+    {"id":"img9","url":"https://imgur.com/K5GEwyS.png","captionKey":"gallery_img9"}
+  ];
+  
+  if (galleryConfig && galleryConfig.length > 0) {
+    const grid = document.getElementById('galleryGrid');
+    grid.innerHTML = galleryConfig.map(img => {
+      if (!img.url) return '';
+      const captionText = translations[currentLang][img.captionKey] || img.captionKey;
+      return `
+        <div class="gallery-item fade-up bg-white rounded-2xl overflow-hidden border border-gray-100 service-card" data-caption-key="${img.captionKey}">
+          <div class="aspect-square bg-gray-200 overflow-hidden relative">
+            <img src="${img.url}" alt="${captionText}" loading="lazy" 
+              class="gallery-img w-full h-full object-cover"
+              onerror="this.parentElement.style.background='#e5e7eb'; console.error('Image failed:', this.src);">
+          </div>
+          <div class="p-4">
+            <p class="text-sm font-semibold text-petrovi-dark text-center gallery-caption">${captionText}</p>
+          </div>
+        </div>
+      `;
+    }).join('');
+    document.querySelectorAll('#galleryGrid .fade-up').forEach(el => observer.observe(el));
+  }
+}
 
-// i18n translations
+// Translations
 const translations = {
   es: {
-    nav_inicio: 'Inicio', nav_nosotros: 'Nosotros', nav_servicios: 'Servicios', nav_sectores: 'Sectores', nav_compliance: 'Cumplimiento', nav_contacto: 'Contacto',
+    nav_inicio: 'Inicio', nav_nosotros: 'Nosotros', nav_servicios: 'Servicios', nav_sectores: 'Sectores', nav_gallery: 'Galería', nav_compliance: 'Cumplimiento', nav_contacto: 'Contacto',
     whatsapp_title: 'Contáctanos por WhatsApp', whatsapp_subtitle: 'Selecciona un número',
     hero_tag: 'Ingeniería · Procura · Construcción · Minería',
     hero_title: 'Innovación y Construcción Industrial de Gran Alcance',
     hero_subtitle: 'Soluciones integrales en ingeniería, mantenimiento y desarrollo minero bajo los más altos estándares de seguridad y precisión técnica.',
     hero_btn: 'Ver Nuestros Servicios',
-    about_tag: 'Nuestra Esencia', about_title: 'Quiénes Somos',
-    about_text: 'Con una sólida trayectoria de excelencia iniciada en 2017, Corporación Petrovi C.A. se ha consolidado como un aliado estratégico líder en servicios de ingeniería y mantenimiento industrial. Nos especializamos en garantizar la continuidad operativa de los sectores petrolero, minero y civil, mediante un modelo de gestión eficiente y soluciones técnicas de alta precisión.',
-    about_mining: '"Llevamos la ingeniería al terreno, gestionando proyectos de exploración y explotación minera con un enfoque en sostenibilidad y rentabilidad."',
-    stat_years: 'Años de Experiencia', stat_commitment: 'Compromiso Operativo', stat_safety_title: 'Seguridad SIAHO', stat_safety_desc: 'Protocolos de alto nivel certificados',
+    about_tag: 'Nuestra Esencia', about_title: 'Nosotros',
+    about_text: 'Empresa venezolana líder en servicios de ingeniería, mantenimiento industrial y suministro de insumos. Nos especializamos en garantizar la continuidad operativa de los sectores petrolero, minero, urbano, civil y agrícola mediante soluciones técnicas de alta precisión y un modelo de gestión eficiente.',
+    about_mission_title: 'Misión',
+    about_mission: 'Proveer servicios especializados de ingeniería, mantenimiento, construcción y manejo IPCM con los más altos estándares de seguridad y calidad, garantizando la continuidad operativa de nuestros clientes y contribuyendo al desarrollo energético nacional.',
+    about_vision_title: 'Visión',
+    about_vision: 'Consolidarnos como el aliado estratégico líder en el sector industrial, minero y petrolero, siendo reconocidos por nuestra capacidad de respuesta, innovación tecnológica y compromiso con la sostenibilidad ambiental.',
+    stat_years: 'Años de Experiencia', stat_commitment: 'Compromiso Operativo', stat_sectors: 'Sectores Estratégicos',
+    stat_years_value: '+7', stat_commitment_value: '100%', stat_sectors_value: '5+',
     services_tag: 'Lo Que Hacemos', services_title: 'Nuestros Servicios',
-    srv1_title: 'Metalmecánica y Mantenimiento', srv1_desc: 'Fabricación de estructuras, soldadura especializada y mantenimiento preventivo de plantas.',
-    srv2_title: 'Ingeniería y Desarrollo Minero', srv2_desc: 'Gestión integral de proyectos de exploración y explotación, asegurando eficiencia operativa en yacimientos.',
-    srv3_title: 'Construcción e Inspección', srv3_desc: 'Ejecución de obras civiles y supervisión técnica rigurosa de proyectos de infraestructura.',
-    srv4_title: 'Procura y Suministros', srv4_desc: 'Dotación estratégica de insumos industriales y repuestos críticos para paradas de planta y emergencias.',
+    srv1_title: 'Construcción e Inspección de Obras', srv1_desc: 'Ejecución de obras civiles y supervisión técnica rigurosa, asegurando el cumplimiento de normativas y altos estándares de calidad.',
+    srv2_title: 'Metalmecánica y Mantenimiento', srv2_desc: 'Fabricación de estructuras, soldadura especializada y mantenimiento preventivo para garantizar la continuidad operativa.',
+    srv3_title: 'Ingeniería y Desarrollo Minero', srv3_desc: 'Gestión integral de proyectos de exploración y extracción, incluyendo levantamientos técnicos y certificación de reservas.',
+    srv4_title: 'Suministros e Insumos', srv4_desc: 'Provisión inmediata de insumos petroleros, consumibles químicos y maquinaria pesada para responder a exigencias críticas.',
+    srv5_title: 'Equipo Humano Especializado', srv5_desc: 'Personal de ingeniería y técnicos certificados con amplia trayectoria, capacitados en protocolos SHA.',
     sectors_tag: 'Especialidades', sectors_title: 'Sectores de Especialidad',
     sec1_title: 'Energía y Petróleo', sec1_desc: 'Soporte técnico a la cadena de valor de hidrocarburos.',
     sec2_title: 'Minería Estratégica', sec2_desc: 'Desarrollo de infraestructura y logística para el sector minero.',
@@ -573,13 +548,22 @@ const translations = {
     compliance_excellence_title: 'Excelencia Operativa', compliance_excellence_desc: 'Personal capacitado en protocolos de seguridad industrial, garantizando operaciones confiables en las instalaciones más exigentes del país.', compliance_excellence_item1: 'Capacitación continua del personal', compliance_excellence_item2: 'Operaciones de máxima confiabilidad', compliance_excellence_item3: 'Instalaciones certificadas y seguras',
     contact_tag: 'Hablemos', contact_title: 'Contacto',
     form_name: 'Nombre', form_email: 'Correo', form_company: 'Empresa', form_subject: 'Asunto', form_message: 'Mensaje', form_send: 'Enviar Mensaje',
-    info_address_label: 'Dirección', info_email_label: 'Correo',
-    footer_rights: 'Todos los derechos reservados.',
-    footer_address_label: 'Dirección',
+    info_address_label: 'Dirección', info_email_label: 'Correo', footer_desc: 'Corporación Petrovi C.A. — Ingeniería, Procura, Construcción y Desarrollo Minero Integral.',
+    footer_rif: 'RIF: J-409559475-0', footer_rights: 'Todos los derechos reservados.',
+    footer_address_label: 'Dirección', footer_address: 'Avenida Tamanaco, cruce con Calle Mara, Quinta Santa Inés, Urbanización Morro III, Lechería, Estado Anzoátegui 6016.',
     footer_legal_label: 'Legal',
     footer_privacy: 'Política de Privacidad',
     footer_terms: 'Términos de Servicio',
     footer_disclaimer: 'Descargo de Responsabilidad',
+    gallery_img1: 'Metalmecánica y Soldadura',
+    gallery_img2: 'Maquinaria y Equipos',
+    gallery_img3: 'Servicios Generales',
+    gallery_img4: 'Sistemas de Bombeo, Motores y Válvulas',
+    gallery_img5: 'Perforación de Pozos Profundos',
+    gallery_img6: 'Ingeniería y Desarrollo Minero',
+    gallery_img7: 'Inteligencia Geofísica y Prospección',
+    gallery_img8: 'Validación de Activos: Perforación de Diamante y Certificación',
+    gallery_img9: 'Implementación de Plantas Llave en Mano',
     back: 'Volver',
     privacy_title: 'Política de Privacidad',
     privacy_intro_title: 'Introducción',
@@ -623,21 +607,27 @@ const translations = {
     toast_success: '¡Mensaje enviado con éxito!', toast_error: 'Error al enviar. Intente de nuevo.'
   },
   en: {
-    nav_inicio: 'Home', nav_nosotros: 'About', nav_servicios: 'Services', nav_sectores: 'Sectors', nav_compliance: 'Compliance', nav_contacto: 'Contact',
+    nav_inicio: 'Home', nav_nosotros: 'About', nav_servicios: 'Services', nav_sectores: 'Sectors', nav_gallery: 'Gallery', nav_compliance: 'Compliance', nav_contacto: 'Contact',
     whatsapp_title: 'Contact Us on WhatsApp', whatsapp_subtitle: 'Select a number',
+    gallery_tag: 'Our Work', gallery_title: 'Project Gallery',
     hero_tag: 'Engineering · Procurement · Construction · Mining',
     hero_title: 'Innovation and Large-Scale Industrial Construction',
     hero_subtitle: 'Comprehensive solutions in engineering, maintenance and mining development under the highest standards of safety and technical precision.',
     hero_btn: 'View Our Services',
-    about_tag: 'Our Essence', about_title: 'Who We Are',
-    about_text: 'With a solid track record of excellence since 2017, Corporación Petrovi C.A. has established itself as a leading strategic partner in engineering and industrial maintenance services. We specialize in ensuring operational continuity in the oil, mining and civil sectors through efficient management and high-precision technical solutions.',
-    about_mining: '"We bring engineering to the field, managing exploration and mining projects with a focus on sustainability and profitability."',
-    stat_years: 'Years of Experience', stat_commitment: 'Operational Commitment', stat_safety_title: 'SIAHO Safety', stat_safety_desc: 'High-level certified protocols',
+    about_tag: 'Our Essence', about_title: 'About Us',
+    about_text: 'Leading Venezuelan company in engineering, industrial maintenance and supplies services. We specialize in ensuring operational continuity in the oil, mining, urban, civil and agricultural sectors through high-precision technical solutions and efficient management.',
+    about_mission_title: 'Mission',
+    about_mission: 'Provide specialized engineering, maintenance, construction and IPCM management services with the highest standards of safety and quality, ensuring operational continuity for our clients and contributing to national energy development.',
+    about_vision_title: 'Vision',
+    about_vision: 'Establish ourselves as the leading strategic partner in the industrial, mining and oil sectors, recognized for our responsiveness, technological innovation and commitment to environmental sustainability.',
+    stat_years: 'Years of Experience', stat_commitment: 'Operational Commitment', stat_sectors: 'Strategic Sectors',
+    stat_years_value: '+7', stat_commitment_value: '100%', stat_sectors_value: '5+',
     services_tag: 'What We Do', services_title: 'Our Services',
-    srv1_title: 'Metalworking & Maintenance', srv1_desc: 'Steel structure fabrication, specialized welding and preventive plant maintenance.',
-    srv2_title: 'Engineering & Mining Development', srv2_desc: 'Comprehensive management of exploration and exploitation projects, ensuring operational efficiency in deposits.',
-    srv3_title: 'Construction & Inspection', srv3_desc: 'Civil works execution and rigorous technical supervision of infrastructure projects.',
-    srv4_title: 'Procurement & Supplies', srv4_desc: 'Strategic supply of industrial materials and critical spare parts for plant shutdowns and emergencies.',
+    srv1_title: 'Construction & Inspection of Works', srv1_desc: 'Civil works execution and rigorous technical supervision, ensuring regulatory compliance and high quality standards.',
+    srv2_title: 'Metalworking & Maintenance', srv2_desc: 'Steel structure fabrication, specialized welding and preventive maintenance to ensure operational continuity.',
+    srv3_title: 'Engineering & Mining Development', srv3_desc: 'Comprehensive management of exploration and extraction projects, including technical surveys and reserve certification.',
+    srv4_title: 'Supplies & Materials', srv4_desc: 'Immediate provision of oil products, chemical consumables and heavy machinery to meet critical industry demands.',
+    srv5_title: 'Specialized Human Resources', srv5_desc: 'Engineering staff and certified technicians with extensive experience, trained in SHA protocols.',
     sectors_tag: 'Specialties', sectors_title: 'Sectors of Expertise',
     sec1_title: 'Energy & Oil', sec1_desc: 'Technical support for the hydrocarbon value chain.',
     sec2_title: 'Strategic Mining', sec2_desc: 'Infrastructure development and logistics for the mining sector.',
@@ -648,11 +638,22 @@ const translations = {
     compliance_excellence_title: 'Operational Excellence', compliance_excellence_desc: 'Personnel trained in industrial safety protocols, guaranteeing reliable operations in the most demanding facilities in the country.', compliance_excellence_item1: 'Continuous staff training', compliance_excellence_item2: 'Maximum reliability operations', compliance_excellence_item3: 'Certified and safe facilities',
     contact_tag: "Let's Talk", contact_title: 'Contact',
     form_name: 'Name', form_email: 'Email', form_company: 'Company', form_subject: 'Subject', form_message: 'Message', form_send: 'Send Message',
-    info_address_label: 'Address', info_email_label: 'Email',
+    info_address_label: 'Address', info_email_label: 'Email', footer_desc: 'Petrovi Corporation C.A. — Engineering, Procurement, Construction and Comprehensive Mining Development.',
+    footer_rif: 'RIF: J-409559475-0', footer_rights: 'All rights reserved.',
+    footer_address_label: 'Address', footer_address: 'Avenida Tamanaco, intersection with Calle Mara, Quinta Santa Inés, Urbanización Morro III, Lechería, State Anzoátegui 6016.',
     footer_legal_label: 'Legal',
     footer_privacy: 'Privacy Policy',
     footer_terms: 'Terms of Service',
     footer_disclaimer: 'Disclaimer',
+    gallery_img1: 'Metalworking and Welding',
+    gallery_img2: 'Machinery and Equipment',
+    gallery_img3: 'General Services',
+    gallery_img4: 'Pumping Systems, Motors and Valves',
+    gallery_img5: 'Deep Well Drilling',
+    gallery_img6: 'Engineering and Mining Development',
+    gallery_img7: 'Geophysical Intelligence and Prospecting',
+    gallery_img8: 'Asset Validation: Diamond Drilling and Certification',
+    gallery_img9: 'Turnkey Plant Implementation',
     back: 'Back',
     privacy_title: 'Privacy Policy',
     privacy_intro_title: 'Introduction',
@@ -705,15 +706,6 @@ function setLang(lang) {
   document.querySelectorAll('[data-i18n]').forEach(el => {
     const key = el.getAttribute('data-i18n');
     if (translations[lang][key]) {
-      // For hero title/subtitle, check config first
-      if (key === 'hero_title' && window.elementSdk && window.elementSdk.config && window.elementSdk.config.hero_title) {
-        el.textContent = window.elementSdk.config.hero_title;
-        return;
-      }
-      if (key === 'hero_subtitle' && window.elementSdk && window.elementSdk.config && window.elementSdk.config.hero_subtitle) {
-        el.textContent = window.elementSdk.config.hero_subtitle;
-        return;
-      }
       el.textContent = translations[lang][key];
     }
   });
@@ -726,6 +718,14 @@ document.getElementById('mobileMenuBtn').addEventListener('click', () => {
 });
 document.getElementById('langToggle').addEventListener('click', () => {
   setLang(currentLang === 'es' ? 'en' : 'es');
+  // Update gallery captions when language changes
+  document.querySelectorAll('[data-caption-key]').forEach(item => {
+    const key = item.getAttribute('data-caption-key');
+    const caption = item.querySelector('.gallery-caption');
+    if (caption) {
+      caption.textContent = translations[currentLang][key] || key;
+    }
+  });
 });
 
 // Legal pages navigation
@@ -779,6 +779,9 @@ const observer = new IntersectionObserver((entries) => {
   entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
 }, { threshold: 0.15 });
 document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+
+// Load gallery on page load
+loadGallery();
 
 // Data SDK for contact form
 const dataHandler = { onDataChanged() {} };
@@ -932,5 +935,5 @@ if (window.elementSdk) {
 // Init icons
 lucide.createIcons();
 </script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'a01839521f8bc6a6',t:'MTc3OTc1MDczNQ=='};var a=document.createElement('script');a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'a018ae028f126508',t:'MTc3OTc1NTUxNQ=='};var a=document.createElement('script');a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
